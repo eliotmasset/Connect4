@@ -12,13 +12,18 @@
 
 </head>
 
+
+
 <body>
     <content>
         <nav></nav>
-        <canvas id="connect4Canvas" width="200" height="100"></canvas>
+        <canvas id="connect4Canvas" width="900" height="700"></canvas>
     </content>
     <script src="Controller/Controller.js"></script>
     <script src="View/View.js"></script>
     <script src="Model/Model.js"></script>
+    <script>
+      const app = new Controller(new Model(), new View("connect4Canvas"));
+    </script>
 </body>
 </html>

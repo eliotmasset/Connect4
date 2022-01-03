@@ -1,23 +1,23 @@
 content {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
-    align-content: center;
-    width: 90%;
-    margin: 0 auto;
-    height: 700px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: center;
+  width: 50%;
+  margin: 0 auto;
+  height: 800px;
 }
 
 nav {
-    background-color: brown;
-    width: 19%;
-    height: 100%;
+  background-color: brown;
+  width: 19%;
+  height: 100%;
 }
 
 #connect4Canvas {
-    background-color: green;
-    width: 79%;
-    height: 100%;
+  background-color: grey;
+  width: 79%;
+  height: 100%;
 }
