@@ -100,6 +100,16 @@ class Model {
         // return winner
         return winner;
     }
+
+    getPossibleMoves(board) {
+        var moves = [];
+        for (var i = 0; i < 7; i++) {
+            if (this.isValidMove(board, i)) {
+                moves.push(i);
+            }
+        }
+        return moves;
+    }
     
     getState() {
         return this.board;
