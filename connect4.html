@@ -16,7 +16,27 @@
 
 <body>
     <content>
-        <nav></nav>
+        <nav>
+            <form>
+                <input type="checkbox" id="nav-toggle-AI" class="nav-toggle-AI">
+                <label for="nav-toggle-AI" class="nav-toggle-label-AI">
+                    Active AI
+                </label>
+                <h4>Starting Player</h4>
+                <input type="radio" name="player" value="1" checked>
+                <label for="player1">Player 1</label><br/>
+                <input type="radio" name="player" value="2">
+                <label for="player2">Player 2</label><br/>
+                <h4>Difficulty</h4>
+                <input type="radio" name="difficulty" value="1" checked>
+                <label for="difficulty1">Easy</label><br/>
+                <input type="radio" name="difficulty" value="2">
+                <label for="difficulty2">Medium</label><br/>
+                <input type="radio" name="difficulty" value="3">
+                <label for="difficulty3">Hard</label><br/>
+                <button type="submit">New Game !</button>
+            </form>
+        </nav>
         <canvas id="connect4Canvas" width="900" height="700"></canvas>
     </content>
     <script src="Controller/Controller.js"></script>
