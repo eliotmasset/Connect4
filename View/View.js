@@ -128,7 +128,7 @@ class View {
       self.jeton.vy = -self.jeton.vy;
       self.jeton.vy *= .4;
     }
-    if(timestamp-self.startTimer>=2200){
+    if(timestamp-self.startTimer>=(2200-300*nbJetonOnLine)){
       window.cancelAnimationFrame(self.raf);
       endFunction();
       this.jeton.x = 40;
