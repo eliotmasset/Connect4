@@ -52,12 +52,7 @@ class View {
   render(state) {
     //Rectangle
     this.context.save();
-    this.drawPlate();
-    let self=this;
-
-    this.MyCanva.addEventListener("click", (e) => {
-      this.animateFalling(self.getMousePos(e).x);
-    });
+    this.drawPlate(state);
   }
 
   //Fonction qui permet de dessiner un rectangle avec des coins arrondis
@@ -81,9 +76,7 @@ class View {
   //Fonction qui permet de récupérer la rangée de l'emplacement du clic
   getRangeByX(x) {
     let range=0;
-    console.log(x);
     for (var i = 0; i <= this.Range.length; i++) {
-      console.log(this.Range[i]);
       if (this.Range[i]>x+10) {
         range=this.Range[i];
         break;
@@ -93,10 +86,11 @@ class View {
   }
 
   //Fonction qui permet de démarer l'animation du jeton
-  animateFalling(posX) {
+  animateFalling(posX, state , endFunction) {
     this.marge=17;
     this.jeton.x=this.getRangeByX(posX);
-    this.raf = window.requestAnimationFrame(() => this.drawBall(this));
+    this.raf = window.requestAnimationFrame((timestamp) => this.drawBall(this,state, endFunction,timestamp));
+    return true;
   }
 
   //Fonction qui permet de récupérer la position du clic dans le canvas
@@ -109,30 +103,48 @@ class View {
   }
 
   //Fonction qui permet de dessiner le jeton
-  drawBall(self) {
+  drawBall(self,state, endFunction,timestamp) {
+    if (self.startTimer === undefined) {
+      self.startTimer = timestamp;
+    }
     this.context.globalCompositeOperation = "destination-over";
     self.context.clearRect(0,0, self.MyCanva.width, self.MyCanva.height);
-    self.drawPlate();
+    self.drawPlate(state);
     this.context.globalCompositeOperation = "destination-over";
     self.jeton.draw();
+    let nbJetonOnLine = 0;
+    for (var i = 0; i < 6; i++) {
+      if (state[i][(self.jeton.x-145)/85] != 0) {
+        nbJetonOnLine++;
+      }
+    }
     self.jeton.x += self.jeton.vx;
     self.jeton.y += self.jeton.vy;
     self.jeton.vy *= 1.01;
     self.jeton.vy += .4;
-    if (self.jeton.y + self.jeton.vy > self.maxHeightPlate+self.marge) {
+    let bottom = self.maxHeightPlate+self.marge-(85*nbJetonOnLine);
+    if (self.jeton.y + self.jeton.vy > bottom) {
       self.marge *= .2;
       self.jeton.vy = -self.jeton.vy;
       self.jeton.vy *= .4;
     }
-    if(self.jeton.vy < 0.05 && self.jeton.vy > -0.05){
+    if(timestamp-self.startTimer>=2200){
       window.cancelAnimationFrame(self.raf);
+      endFunction();
+      this.jeton.x = 40;
+      this.jeton.y = 40;
+      this.jeton.vx = 0;
+      this.jeton.vy = 2;
+      this.marge=17;
+      this.jeton.color = this.jeton.color == 'red' ? 'yellow' : 'red';
+      self.startTimer = undefined;
       return;
     }
-    self.raf = window.requestAnimationFrame(() => self.drawBall(this));
+    self.raf = window.requestAnimationFrame((timestamp) => self.drawBall(this, state, endFunction,timestamp));
   }
 
   //Fonction qui permet de dessiner le plateau
-  drawPlate() {
+  drawPlate(state = null) {
     this.context.beginPath();
     this.context.fillStyle = "blue";
     this.context.lineWidth = "10";
@@ -146,9 +158,17 @@ class View {
 
     for (var i = 0; i <= 5; i++) {
       for (var j = 0; j <= 6; j++) {
+        if(state!=null && state[i][j]==1){
+          this.context.globalCompositeOperation = "source-over";
+          this.context.fillStyle = "red";
+        } else if (state!=null && state[i][j]==2) {
+          this.context.globalCompositeOperation = "source-over";
+          this.context.fillStyle = "yellow";
+        }
         this.context.arc(145 + 85 * j, 95 + 85 * i, 35, Math.PI * 2, false);
         this.context.fill();
         this.context.beginPath();
+        this.context.globalCompositeOperation = "xor";
       }
     }
     this.context.restore();

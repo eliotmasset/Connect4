@@ -9,6 +9,7 @@ class Model {
             [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0]
         ];
+        this.currentPlayer = 1;
     }
 
     isValidMove(board, column) {
@@ -53,13 +54,18 @@ class Model {
     }
 
     makeMove(board, column, player) {
-        var nextBoard = Array.clone(board);
+        var nextBoard = board.slice();
         for (var i = 0; i < 6; i++) {
             if (nextBoard[i][column] !== 0) {
                 nextBoard[i - 1][column] = player;
                 break;
             }
+            if(i === 5) {
+                nextBoard[i][column] = player;
+            }
         }
+        this.board = nextBoard;
+        this.currentPlayer = player===1?2:1;
         return nextBoard;
     }
 
