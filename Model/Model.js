@@ -120,6 +120,17 @@ class Model {
                 }
             }
         }
+        //Check if plateau is full
+        var isFull = true;
+        for (var i = 0; i < 7; i++) {
+            if (board[0][i] === 0) {
+                isFull = false;
+            }
+        }
+        if (isFull) {
+            winner = 3;
+        }
+        
         // return winner
         return winner;
     }

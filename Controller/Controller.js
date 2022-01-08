@@ -6,7 +6,7 @@
   * Version: 1.0
  **/
 class Controller {
-  
+
   // Constructeur
   constructor(model, view) {
     this.model = model; //Référence sur le modèle
@@ -68,7 +68,12 @@ class Controller {
     let winner = this.model.getWinner(this.model.board);
     if(winner) { //Si le jeu est terminé 
       this.model.gameState = 0;
-      this.endGame(state, winner); //On aappelle la fonction de fin de partie
+      if(winner === 3) { //Si il y a match nul
+        this.view.MyCanva.removeEventListener("click", this.clickOnCanva); //On supprime l'écouteur d'événement de clic)
+        alert("La partie se termine sur un match nul"); //On affiche un message de fin de partie
+      } else {
+        this.endGame(state, winner); //On aappelle la fonction de fin de partie
+      }
     }
   }
 

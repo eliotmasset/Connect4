@@ -53,6 +53,7 @@ class View {
       }
       this.Range[i] = 145 + 85 * i;
     }
+    console.log(this.Range);
     
   }
 
