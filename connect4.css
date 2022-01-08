@@ -41,7 +41,7 @@ nav button {
 }
 
 #connect4Canvas {
-  background-color: grey;
+  background-color: white;
   width: 79%;
   height: 100%;
 }

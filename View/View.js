@@ -6,12 +6,16 @@
   * Version: 1.0
  **/
 class View {
+
   //Constructeur
   constructor(canvaId) {
+
+    //Initialisation des variables du canvas
     this.MyCanva = document.getElementById("connect4Canvas");
     this.context = this.MyCanva.getContext("2d");
     this.xToken = 0;
     this.yToken = 0;
+    this.canAnimate = true;
     this.board = [
       [ [x=>25,y=>25], 
     ] 
@@ -19,7 +23,7 @@ class View {
     let self = this;
     this.jeton = {
       x: 40,
-      y: 40,
+      y: 50,
       vx: 0,
       vy: 2,
       radius: 35,
@@ -33,11 +37,15 @@ class View {
       }
     };
     this.raf;
-    this.minHeightPlate=100;
-    this.maxHeightPlate=521;
+
+
+    //Initialisation des variables de la classe
+    this.minHeightPlate=150;
+    this.maxHeightPlate=571;
     this.marge=0;
-    this.Case=[];
-    this.Range=[];
+
+    this.Case=[]; //Tableau qui contient les coordonnées des cases
+    this.Range=[]; //Tableau qui contient les coordonnées des colonnes
     for (var i = 0; i <= 6; i++) {
       this.Case[i]=[];
       for (var j = 0; j <= 5; j++) {
@@ -53,6 +61,11 @@ class View {
     //Rectangle
     this.context.save();
     this.drawPlate(state);
+  }
+
+  //Fonction qui renvoie si oui ou non une animation est possible
+  getCanAnimate() {
+      return this.canAnimate;
   }
 
   //Fonction qui permet de dessiner un rectangle avec des coins arrondis
@@ -81,15 +94,20 @@ class View {
         range=this.Range[i];
         break;
       }
-    }
-    return range;
+    } // Pour chaque rangée, on regarde si le clic est dans la rangée
+    return range; //On renvoie la rangée
   }
 
   //Fonction qui permet de démarer l'animation du jeton
   animateFalling(posX, state , endFunction) {
+    //Initialise avant l'animation :
+    this.canAnimate = false;
     this.marge=17;
     this.jeton.x=this.getRangeByX(posX);
+
+    //Lance l'animation :
     this.raf = window.requestAnimationFrame((timestamp) => this.drawBall(this,state, endFunction,timestamp));
+
     return true;
   }
 
@@ -106,40 +124,53 @@ class View {
   drawBall(self,state, endFunction,timestamp) {
     if (self.startTimer === undefined) {
       self.startTimer = timestamp;
-    }
+    } //Récupère le temps de départ de l'animation
+
+
     this.context.globalCompositeOperation = "destination-over";
-    self.context.clearRect(0,0, self.MyCanva.width, self.MyCanva.height);
-    self.drawPlate(state);
+    self.context.clearRect(0,0, self.MyCanva.width, self.MyCanva.height); //Table rase du canvas
+    self.drawPlate(state); //Dessine le plateau
     this.context.globalCompositeOperation = "destination-over";
-    self.jeton.draw();
+    self.jeton.draw(); //Dessine le jeton
+
+    // Calcul le nombre de jetons sur la colonne :
     let nbJetonOnLine = 0;
     for (var i = 0; i < 6; i++) {
       if (state[i][(self.jeton.x-145)/85] != 0) {
         nbJetonOnLine++;
       }
-    }
+    } 
+
+    //Change les vaiables du jeton :
     self.jeton.x += self.jeton.vx;
     self.jeton.y += self.jeton.vy;
     self.jeton.vy *= 1.01;
     self.jeton.vy += .4;
-    let bottom = self.maxHeightPlate+self.marge-(85*nbJetonOnLine);
-    if (self.jeton.y + self.jeton.vy > bottom) {
+    let bottom = self.maxHeightPlate+self.marge-(85*nbJetonOnLine); //Calcul la position du bas de la colonne
+
+    //Si le jeton touche le bas de la colonne :
+    if (self.jeton.y + self.jeton.vy > bottom) { 
       self.marge *= .2;
-      self.jeton.vy = -self.jeton.vy;
+      self.jeton.vy = -self.jeton.vy; //Inverse la vitesse du jeton
       self.jeton.vy *= .4;
     }
-    if(timestamp-self.startTimer>=(2200-300*nbJetonOnLine)){
+
+    //Si l'animation est terminée :
+    if(timestamp-self.startTimer>=(2500-300*nbJetonOnLine)){
       window.cancelAnimationFrame(self.raf);
       endFunction();
       this.jeton.x = 40;
-      this.jeton.y = 40;
+      this.jeton.y = 50;
       this.jeton.vx = 0;
       this.jeton.vy = 2;
       this.marge=17;
-      this.jeton.color = this.jeton.color == 'red' ? 'yellow' : 'red';
+      this.jeton.color = this.jeton.color == 'red' ? '#ffdd00' : 'red';
       self.startTimer = undefined;
+      this.canAnimate = true;
       return;
     }
+
+    //Continue l'animation :
     self.raf = window.requestAnimationFrame((timestamp) => self.drawBall(this, state, endFunction,timestamp));
   }
 
@@ -148,7 +179,7 @@ class View {
     this.context.beginPath();
     this.context.fillStyle = "blue";
     this.context.lineWidth = "10";
-    this.roundRect(100, 50, 600, 515, 20);
+    this.roundRect(100, 100, 600, 515, 20);
     this.context.fill();
     this.context.closePath();
     this.context.globalCompositeOperation = "xor";
@@ -163,9 +194,9 @@ class View {
           this.context.fillStyle = "red";
         } else if (state!=null && state[i][j]==2) {
           this.context.globalCompositeOperation = "source-over";
-          this.context.fillStyle = "yellow";
+          this.context.fillStyle = "#ffdd00";
         }
-        this.context.arc(145 + 85 * j, 95 + 85 * i, 35, Math.PI * 2, false);
+        this.context.arc(145 + 85 * j, 145 + 85 * i, 35, Math.PI * 2, false);
         this.context.fill();
         this.context.beginPath();
         this.context.globalCompositeOperation = "xor";
@@ -173,4 +204,78 @@ class View {
     }
     this.context.restore();
   }
+
+  //Fonction qui permet d'animer l'ouverture du plateau
+  openPlate(endFunction, state) {
+    this.canAnimate = false;
+
+    // On récupère les jetons présents sur le plateau
+    var jetons = [];
+    for (var i = 0; i <= 5; i++) {
+      jetons[i] = [];
+      for (var j = 0; j <= 6; j++) {
+        if(state!=null && state[i][j]==1){
+          jetons[i][j] = {...this.jeton};
+          jetons[i][j].color = "red";
+          jetons[i][j].x = 145 + 85 * j;
+          jetons[i][j].y = 145 + 85 * i;
+        } else if (state!=null && state[i][j]==2) {
+          jetons[i][j] = {...this.jeton};
+          jetons[i][j].color = "#ffdd00";
+          jetons[i][j].x = 145 + 85 * j;
+          jetons[i][j].y = 145 + 85 * i;
+        }
+      }
+    }
+
+    //Lance l'animation :
+    let self = this;
+    var raf = window.requestAnimationFrame((timestamp) => self.fallBall(raf, jetons, state, timestamp,endFunction));
+  }
+
+  //Fonction qui permet d'animer la tombée d'un jeton
+  fallBall(raf, jetons, state,timestamp, endFunction) { 
+    if (this.startTimer === undefined) {
+      this.startTimer = timestamp;
+    } //Récupère le temps de départ de l'animation
+
+    this.context.globalCompositeOperation = "destination-over"; 
+    this.context.clearRect(0,0, this.MyCanva.width, this.MyCanva.height); //Table rase du canvas
+    this.drawPlate([
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0]
+    ]); //Dessine le plateau
+    this.context.globalCompositeOperation = "destination-over";
+
+    //Animation  de chaque jeton :
+    for( var i = 0; i < jetons.length; i++) {
+      for( var j = 0; j < jetons[i].length; j++) {
+        if(jetons[i][j]!=undefined){
+          jetons[i][j].draw();
+          jetons[i][j].x += jetons[i][j].vx;
+          jetons[i][j].y += jetons[i][j].vy;
+          jetons[i][j].vy *= 1.01;
+          jetons[i][j].vy += .4;
+        }
+      }
+    }
+
+    //Si l'animation est terminée :
+    if(timestamp-this.startTimer>=(1000)){
+      window.cancelAnimationFrame(raf);
+      this.canAnimate = true;
+      this.startTimer = undefined;
+      endFunction();
+      return;
+    }
+
+    //Continue l'animation :
+    let self = this;
+    raf = window.requestAnimationFrame((timestamp) => self.fallBall(raf, jetons, state,timestamp, endFunction));
+  }
+
 }
