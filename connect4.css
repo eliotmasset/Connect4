@@ -1,9 +1,57 @@
 body {
-  background: url(Assets/image/back.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
+  will-change: background-position;
+      --bg-gradient-stop-1: #a7ffef;
+      --bg-gradient-stop-2: #99b9ff;
+      --bg-gradient-stop-3: #5e86bd;
+    background-color: var(--bg-gradient-stop-1);
+    background-image: radial-gradient(
+        ellipse at 90% 30%,
+        var(--bg-gradient-stop-1) 20%,
+        transparent 50%
+      ),
+      radial-gradient(
+        ellipse at 70% 0%,
+        var(--bg-gradient-stop-2) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        ellipse at 20% 10%,
+        var(--bg-gradient-stop-3) 10%,
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse at 50% 100%,
+        var(--bg-gradient-stop-2) 0%,
+        transparent 50%
+      );
+    background-size: 200% 100%;
+    background-size: 400% 200%;
+    background-position: 0% 0%;
+    animation: bg-gradient-anim-1 20s linear infinite;
+}
+
+
+@keyframes bg-gradient-anim-1 {
+  0%,
+  100% {
+    background-position: 0% 0%;
+  }
+
+  25% {
+    background-position: 100% 70%;
+  }
+
+  50% {
+    background-position: 70% 0%;
+  }
+
+  75% {
+    background-position: 0% 100%;
+  }
 }
 
 content {
