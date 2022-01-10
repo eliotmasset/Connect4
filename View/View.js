@@ -22,6 +22,7 @@ class View {
     ];
     this.jeton = new Jeton(this.context);
     this.raf;
+    this.arrow = new Arrow(document.getElementById('arrow-down'),this.MyCanva);
 
 
     //Initialisation des variables de la classe
@@ -47,6 +48,11 @@ class View {
     //Rectangle
     this.context.save();
     this.drawPlate(state);
+    let self = this;
+    document.addEventListener("mousemove", (evt) => {
+      var mousePos = self.getRangeByX(self.getMousePos(evt).x);
+      self.arrow.draw(mousePos);
+    });
   }
 
   //Fonction qui renvoie si oui ou non une animation est possible

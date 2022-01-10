@@ -38,16 +38,18 @@
                 <button type="submit">New Game !</button>
             </form>
         </nav>
+        <div class="arrow-down" id="arrow-down" style="cursor: pointer;" tabindex="5"><div class="arrow-down_part-left"></div><div class="arrow-down_part-right"></div></div>
         <canvas id="connect4Canvas" width="900" height="760"></canvas>
     </content>
     <script src="Controller/Controller.js"></script>
     <script src="View/View.js"></script>
     <script src="View/Jeton.js"></script>
     <script src="View/Notif.js"></script>
+    <script src="View/Arrow.js"></script>
     <script src="Model/Model.js"></script>
     <script src="Model/Computer.js"></script>
     <script>
-      const app = new Controller(new Model(), new View("connect4Canvas"));
+        const app = new Controller(new Model(), new View("connect4Canvas"));
     </script>
 </body>
 </html>

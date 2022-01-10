@@ -54,6 +54,46 @@ body {
   }
 }
 
+
+.arrow-down
+{
+    display: none;
+    background-color: transparent;
+    width: 150px;
+    height: 150px;
+    overflow:hidden;
+    position: absolute;
+    animation: bounce 1.4s ease infinite;
+    top: 0px;
+    left: 42.50px;
+    transform: translateX(-50%);
+    filter: drop-shadow(0px 0px 2px grey);
+}
+
+.arrow-down_part-left
+{
+    background-color: white;
+    position: absolute;
+    transform: rotateZ(-45deg) translateY(70px);
+    border-radius: 2px;
+    width:70px;
+    height: 20px;
+}
+.arrow-down_part-right
+{
+    background-color: white;
+    transform: rotateZ(45deg) translateY(25px) translateX(45px);
+    position: absolute;
+    border-radius: 2px;
+    width:70px;
+    height: 20px;
+}
+@keyframes bounce{
+    from {top: 0px;}
+    50%  {top: 10px;}
+    to   {top: 0px;}
+}
+
 content {
   display: flex;
   flex-direction: row;
