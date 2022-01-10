@@ -20,22 +20,7 @@ class View {
       [ [x=>25,y=>25], 
     ] 
     ];
-    let self = this;
-    this.jeton = {
-      x: 40,
-      y: 50,
-      vx: 0,
-      vy: 2,
-      radius: 35,
-      color: 'red',
-      draw: function() {
-        self.context.beginPath();
-        self.context.arc(this.x, this.y, this.radius, 0, Math.PI*2, true);
-        self.context.closePath();
-        self.context.fillStyle = this.color;
-        self.context.fill();
-      }
-    };
+    this.jeton = new Jeton(this.context);
     this.raf;
 
 
@@ -216,12 +201,12 @@ class View {
       jetons[i] = [];
       for (var j = 0; j <= 6; j++) {
         if(state!=null && state[i][j]==1){
-          jetons[i][j] = {...this.jeton};
+          jetons[i][j] = new Jeton(this.context);
           jetons[i][j].color = "red";
           jetons[i][j].x = 145 + 85 * j;
           jetons[i][j].y = 145 + 85 * i;
         } else if (state!=null && state[i][j]==2) {
-          jetons[i][j] = {...this.jeton};
+          jetons[i][j] = new Jeton(this.context);
           jetons[i][j].color = "#ffdd00";
           jetons[i][j].x = 145 + 85 * j;
           jetons[i][j].y = 145 + 85 * i;

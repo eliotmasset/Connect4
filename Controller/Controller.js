@@ -49,7 +49,6 @@ class Controller {
   }
 
 
-
   // Fonction de début de partie
   startGame(out) {
     let state =this.model.getState();
