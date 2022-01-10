@@ -76,7 +76,7 @@ class View {
   getRangeByX(x) {
     let range=0;
     for (var i = 0; i <= this.Range.length; i++) {
-      if (this.Range[i]>x+10) {
+      if (this.Range[i]>x-35) {
         range=this.Range[i];
         break;
       }

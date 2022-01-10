@@ -114,7 +114,7 @@ class Model {
     // Fonction qui permet de connaitre les coups possibles
     getPossibleMoves(board) {
         var moves = [];
-        for (var i = 0; i < 7; i++) {
+        for (let i = 0; i < 7; i++) {
             if (this.isValidMove(board, i)) {
                 moves.push(i);
             }

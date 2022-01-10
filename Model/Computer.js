@@ -16,7 +16,7 @@ class Computer {
     minimax(board, depth, isMaximizing) {
         var bestScore = isMaximizing ? -Infinity : Infinity;
         var bestMove = null;
-        for (var i = 0; i < 7; i++) {
+        for (let i = 0; i < 7; i++) {
             if (this.isValidMove(board, i)) {
                 var nextBoard = this.makeMove(board, i, isMaximizing ? 1 : 2);
                 var score = this.minimax(nextBoard, depth + 1, !isMaximizing);
