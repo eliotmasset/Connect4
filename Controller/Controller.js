@@ -84,13 +84,15 @@ class Controller {
 
   //Fonction au clic sur le canvas
   clickOnCanva(e, self) {
+    console.log("click");
     if(!this.view.getCanAnimate() || this.model.gameState === 0) return 0; //Si le jeton est en train de tomber, on ne fait rien
     let pos = self.view.getMousePos(e); //On récupère la position du clic
     let range = self.view.getRangeByX(pos.x); //On récupère la rangée de l'emplacement du clic
     let col = (range-145)/85; //On récupère la colonne de l'emplacement du clic
-    if(!self.model.isValidMove(self.model.board,col)) { //On vérifie si le coup est valide
+    let move = self.model.isValidMove(self.model.board,col);
+    if(move===0) { //On vérifie si le coup est valide
       alert("Cette colonne est pleine");  //Si non, on affiche un message d'erreur
-    } else { //Sinon, on joue le coup
+    } else if(move!==2) { //Sinon, on joue le coup
       self.view.animateFalling(pos.x,self.model.getState(), () => { self.view.render(self.model.makeMove(self.model.board,col,self.model.currentPlayer)); self.isEndGame(self.model.getState()); }); //On anime le jeton
     }
   }

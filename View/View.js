@@ -81,8 +81,9 @@ class View {
   //Fonction qui permet de récupérer la rangée de l'emplacement du clic
   getRangeByX(x) {
     let range=0;
+    console.log(x);
     for (var i = 0; i <= this.Range.length; i++) {
-      if (this.Range[i]>x-35) {
+      if (this.Range[i]>x-35 && x>95) {
         range=this.Range[i];
         break;
       }

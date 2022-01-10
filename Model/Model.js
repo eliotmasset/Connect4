@@ -25,10 +25,12 @@ class Model {
 
     // Fonction qui permet de savoir si une colonne est valide
     isValidMove(board, column) {
-        if (column < 0 || column > 6 || board[0][column] !== 0) {
-            return false;
+        if ((column >= 0 && column <= 6) && board[0][column] !== 0) {
+            return 0;
+        } else if (column < 0 || column > 6) {
+            return 2;
         }
-        return true;
+        return 1;
     }
 
     // Fonction qui initialise le jeu
