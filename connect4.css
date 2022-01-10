@@ -60,7 +60,7 @@ body {
     display: none;
     background-color: transparent;
     width: 150px;
-    height: 150px;
+    height: 100px;
     overflow:hidden;
     position: absolute;
     animation: bounce 1.4s ease infinite;
