@@ -51,7 +51,7 @@ class View {
     let self = this;
     document.addEventListener("mousemove", (evt) => {
       var mousePos = self.getRangeByX(self.getMousePos(evt).x);
-      self.arrow.draw(mousePos);
+      self.arrow.draw(mousePos, evt);
     });
   }
 

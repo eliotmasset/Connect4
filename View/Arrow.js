@@ -11,14 +11,14 @@ class Arrow {
         this.canvas = canvas;
     }
 
-    draw(collumn) {
-        if(collumn === undefined || collumn === null || collumn === 0) {
+    draw(collumn,evt) {
+        if(collumn === undefined || collumn === null || collumn === 0 || evt.clientX < this.canvas.getBoundingClientRect().left+95 ) {
             this.hide();
             return 0;
         }
         console.log(collumn);
         this.element.style.display = 'block';
-        this.element.style.left = collumn+this.canvas.getBoundingClientRect().left + 'px';
+        this.element.style.left = collumn+this.canvas.getBoundingClientRect().left+5-((collumn-145)/85) + 'px';
     }
 
     hide() {
