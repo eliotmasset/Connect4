@@ -16,13 +16,11 @@ class Arrow {
             this.hide();
             return 0;
         }
-        console.log(collumn);
         this.element.style.display = 'block';
         this.element.style.left = collumn+this.canvas.getBoundingClientRect().left+5-((collumn-145)/85) + 'px';
     }
 
     hide() {
-        console.log('hide');
         this.element.style.display = 'none';
     }
 }

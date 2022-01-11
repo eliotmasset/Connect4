@@ -18,31 +18,14 @@
 <body>
     <content>
         <nav>
-            <form  action="" id="form-connect4">
-                <input type="checkbox" id="nav-toggle-AI" class="nav-toggle-AI" name="ai">
-                <label for="nav-toggle-AI" class="nav-toggle-label-AI">
-                    Active AI
-                </label>
-                <h4>Starting Player</h4>
-                <input type="radio" name="player" value="1" checked>
-                <label for="player1">Player 1</label><br/>
-                <input type="radio" name="player" value="2">
-                <label for="player2">Player 2</label><br/>
-                <h4>Difficulty</h4>
-                <input type="radio" name="difficulty" value="1" checked>
-                <label for="difficulty1">Easy</label><br/>
-                <input type="radio" name="difficulty" value="2">
-                <label for="difficulty2">Medium</label><br/>
-                <input type="radio" name="difficulty" value="3">
-                <label for="difficulty3">Hard</label><br/>
-                <button type="submit">New Game !</button>
-            </form>
         </nav>
         <div class="arrow-down" id="arrow-down" tabindex="5"><div class="arrow-down_part-left"></div><div class="arrow-down_part-right"></div></div>
         <canvas id="connect4Canvas" width="900" height="760"></canvas>
     </content>
     <script src="Controller/Controller.js"></script>
+    <script src="Controller/GameController.js"></script>
     <script src="View/View.js"></script>
+    <script src="View/Nav.js"></script>
     <script src="View/Jeton.js"></script>
     <script src="View/Notif.js"></script>
     <script src="View/Arrow.js"></script>
