@@ -5,6 +5,7 @@
   * Description: Ce fichier contient les fonctions de la classe Model
   * Version: 1.0
  **/
+import { Computer } from "./Computer.js";
 
 class Model {
 
@@ -129,3 +130,5 @@ class Model {
         return this.board;
     }
 }
+
+export {Model};

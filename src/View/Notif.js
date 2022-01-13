@@ -12,3 +12,5 @@ class Notif {
         this.type = type;
     }
 }
+
+export {Notif};

@@ -5,6 +5,8 @@
   * Description: Ce fichier contient les fonctions de la classe Controller
   * Version: 1.0
  **/
+import { GameController } from "./GameController.js";
+
  class Controller {
 
     // Constructeur
@@ -20,3 +22,5 @@
     }
   }
   
+
+  export {Controller};

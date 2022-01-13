@@ -36,3 +36,6 @@ class Computer {
         }
     }
 }
+
+
+export {Computer};

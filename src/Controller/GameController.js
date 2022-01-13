@@ -5,6 +5,7 @@
   * Description: Ce fichier contient les fonctions de la classe GameController
   * Version: 1.0
  **/
+import {Nav} from "../View/Nav.js";
 class GameController {
 
   // Constructeur
@@ -74,3 +75,5 @@ class GameController {
     }
   }
 }
+
+export {GameController};

@@ -5,6 +5,8 @@
   * Description: Ce fichier contient les fonctions de la classe Nav
   * Version: 1.0
  **/
+import $ from "jquery";
+
  class Nav {
     constructor(div, submit_function) {
         this.div = div;
@@ -120,3 +122,5 @@
       }); // On lance le jeu à l'envoi du formulaire
     }
 }
+
+export {Nav};

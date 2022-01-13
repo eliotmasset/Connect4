@@ -24,3 +24,5 @@ class Jeton {
         this.context.fill();
     }
 }
+
+export {Jeton};

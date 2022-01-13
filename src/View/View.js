@@ -5,6 +5,10 @@
   * Description: Ce fichier contient les fonctions de la classe View
   * Version: 1.0
  **/
+import { Nav } from "./Nav.js";
+import { Jeton } from "./Jeton.js";
+import { Notif } from "./Notif.js";
+import { Arrow } from "./Arrow.js";
 class View {
 
   //Constructeur
@@ -270,3 +274,5 @@ class View {
   }
 
 }
+
+export {View};

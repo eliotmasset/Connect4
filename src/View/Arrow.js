@@ -24,3 +24,5 @@ class Arrow {
         this.element.style.display = 'none';
     }
 }
+
+export {Arrow};
