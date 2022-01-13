@@ -5,7 +5,7 @@
   * Description: Ce fichier contient les fonctions de la classe Model
   * Version: 1.0
  **/
-import { Computer } from "./Computer.js";
+import { Player } from "./Player.js";
 
 class Model {
 
@@ -18,8 +18,10 @@ class Model {
             [2, 1, 2, 2, 1, 2, 2],
             [1, 1, 1, 1, 1, 1, 2],
             [2, 2, 2, 2, 1, 2, 2]
-          ];
-        this.currentPlayer = 1;
+        ];
+        this.firstPlayer = new Player(1, false);
+        this.secondPlayer = new Player(2, false);
+        this.currentPlayer = this.firstPlayer;
         this.gameState = 0;
     }
 
@@ -52,15 +54,15 @@ class Model {
         var nextBoard = board.slice(); // copie du plateau
         for (var i = 0; i < 6; i++) {
             if (nextBoard[i][column] !== 0) {
-                nextBoard[i - 1][column] = player;
+                nextBoard[i - 1][column] = player.getColor();
                 break;
             }
             if(i === 5) {
-                nextBoard[i][column] = player;
+                nextBoard[i][column] = player.getColor();
             }
         } // Pour chaque ligne du tableau on regarde si le coup est possible
         this.board = nextBoard; // On met à jour le plateau
-        this.currentPlayer = player===1?2:1; // On change de joueur
+        this.currentPlayer = player.getColor()===this.firstPlayer.getColor()?this.secondPlayer:this.firstPlayer; // On change de joueur
         return nextBoard; // On retourne le plateau
     }
 
