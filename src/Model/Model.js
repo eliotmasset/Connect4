@@ -69,6 +69,16 @@ class Model {
     // Fonction qui permet de savoir si le jeu est fini et qui retourne le gagnant
     getWinner(board) {
         var winner = 0;
+        //Check if plateau is full
+        var isFull = true;
+        for (var i = 0; i < 7; i++) {
+            if (board[0][i] === 0) {
+                isFull = false;
+            }
+        }
+        if (isFull) {
+            winner = 3;
+        }
         // check horizontal
         for (var i = 0; i < 6; i++) { // row
             for (var j = 0; j < 4; j++) { // column
@@ -100,16 +110,6 @@ class Model {
                     winner = board[i][j];
                 }
             }
-        }
-        //Check if plateau is full
-        var isFull = true;
-        for (var i = 0; i < 7; i++) {
-            if (board[0][i] === 0) {
-                isFull = false;
-            }
-        }
-        if (isFull) {
-            winner = 3;
         }
         
         // return winner

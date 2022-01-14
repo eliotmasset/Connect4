@@ -6,6 +6,7 @@
   * Version: 1.0
  **/
 import { Nav } from "./Nav.js";
+import { ParamsGame } from "./ParamsGame.js";
 import { Jeton } from "./Jeton.js";
 import { Notif } from "./Notif.js";
 import { Arrow } from "./Arrow.js";
@@ -27,6 +28,8 @@ class View {
     this.jeton = new Jeton(this.context);
     this.raf;
     this.arrow = new Arrow(document.getElementById('arrow-down'),this.MyCanva);
+    this.paramsGame = new ParamsGame();
+    this.paramsGame.drawSwitchAnimateSpeed();
 
 
     //Initialisation des variables de la classe
@@ -117,7 +120,20 @@ class View {
 
   //Fonction qui permet de dessiner le jeton
   drawBall(self,state, endFunction,timestamp) {
+
+    // Calcul le nombre de jetons sur la colonne :
+    let nbJetonOnLine = 0;
+    for (var i = 0; i < 6; i++) {
+      if (state[i][(self.jeton.x-145)/85] != 0) {
+        nbJetonOnLine++;
+      }
+    } 
+
     if (self.startTimer === undefined) {
+      if(this.paramsGame.speed!=0){
+        self.jeton.vy = 6;
+        self.marge=15;
+      }
       self.startTimer = timestamp;
     } //Récupère le temps de départ de l'animation
 
@@ -128,32 +144,50 @@ class View {
     this.context.globalCompositeOperation = "destination-over";
     self.jeton.draw(); //Dessine le jeton
 
-    // Calcul le nombre de jetons sur la colonne :
-    let nbJetonOnLine = 0;
-    for (var i = 0; i < 6; i++) {
-      if (state[i][(self.jeton.x-145)/85] != 0) {
-        nbJetonOnLine++;
-      }
-    } 
-
     //Change les vaiables du jeton :
     self.jeton.x += self.jeton.vx;
     self.jeton.y += self.jeton.vy;
-    self.jeton.vy *= 1.01;
-    self.jeton.vy += .4;
-    let bottom = self.maxHeightPlate+self.marge-(85*nbJetonOnLine); //Calcul la position du bas de la colonne
+    if(this.paramsGame.speed==0){
+      self.jeton.vy *= 1.01;
+      self.jeton.vy += .4;
+    } else {
+      self.jeton.vy *= 1.01;
+      self.jeton.vy += .4;
+    }
+    let bottom = 0;
+    if(this.paramsGame.speed==0){
+      bottom = self.maxHeightPlate+self.marge-(85*nbJetonOnLine); //Calcul la position du bas de la colonne
+    } else {
+      bottom = self.maxHeightPlate-5+self.marge-(85*nbJetonOnLine); //Calcul la position du bas de la colonne
+      if(nbJetonOnLine<=2){
+        bottom = self.maxHeightPlate-4+self.marge-(85*nbJetonOnLine); //Calcul la position du bas de la colonne
+      } else if(nbJetonOnLine==3){
+        bottom = self.maxHeightPlate-7+self.marge-(85*nbJetonOnLine); //Calcul la position du bas de la colonne
+      }
+    }
 
     //Si le jeton touche le bas de la colonne :
     if (self.jeton.y + self.jeton.vy > bottom) { 
-      self.marge *= .2;
-      self.jeton.vy = -self.jeton.vy; //Inverse la vitesse du jeton
-      self.jeton.vy *= .4;
+      
+      if(this.paramsGame.speed==0){
+        self.marge *= .2;
+        self.jeton.vy = -self.jeton.vy; //Inverse la vitesse du jeton
+        self.jeton.vy *= .4;
+      } else {
+        self.jeton.vy = -self.jeton.vy; //Inverse la vitesse du jeton
+        self.jeton.vy *= .15;
+      }
     }
 
     //Si l'animation est terminée :
-    if(timestamp-self.startTimer>=(2500-300*nbJetonOnLine)){
-      window.cancelAnimationFrame(self.raf);
-      endFunction();
+    let maxTime = this.paramsGame.speed==0?2500:1000;
+    let downTime = this.paramsGame.speed==0?300:150;
+    if(timestamp-self.startTimer>=(maxTime-downTime*nbJetonOnLine)){
+      this.context.globalCompositeOperation = "destination-over";
+      self.context.clearRect(0,0, self.MyCanva.width, self.MyCanva.height); //Table rase du canvas
+      self.drawPlate(state); //Dessine le plateau
+      this.context.globalCompositeOperation = "destination-over";
+      self.jeton.draw(); //Dessine le jeton
       this.jeton.x = 40;
       this.jeton.y = 50;
       this.jeton.vx = 0;
@@ -162,6 +196,8 @@ class View {
       this.jeton.color = this.jeton.color == 'red' ? '#ffdd00' : 'red';
       self.startTimer = undefined;
       this.canAnimate = true;
+      window.cancelAnimationFrame(self.raf);
+      endFunction();
       return;
     }
 
