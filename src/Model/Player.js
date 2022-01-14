@@ -38,7 +38,7 @@
         var bestMove = 0;
         for(let i=0; i<position.length; i++) {
             var evalScore = this.minimax(model.getStateByMove(position, i, this.color), depth-1, true, model);
-            console.log("score : "+evalScore);
+            console.log("i : "+i+" score : "+evalScore);
             if(evalScore > maxEval) {
                 maxEval = evalScore;
                 bestMove = i;
