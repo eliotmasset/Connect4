@@ -96,6 +96,10 @@ class View {
     return range; //On renvoie la rangée
   }
 
+  getXbyRange(range) {
+    return this.Range[range];
+  }
+
   //Fonction qui permet de démarer l'animation du jeton
   animateFalling(posX, state , endFunction) {
     //Initialise avant l'animation :

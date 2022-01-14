@@ -5,7 +5,6 @@
   * Description: Ce fichier contient les fonctions de la classe Nav
   * Version: 1.0
  **/
- import $ from "jquery";
 
  class ParamsGame {
     constructor() {

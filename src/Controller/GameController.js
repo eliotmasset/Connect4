@@ -31,7 +31,7 @@ class GameController {
   startGame(out) {
     if(!this.view.getCanAnimate()) return 0;
     let state = this.model.getState();
-    this.model.startGame(); //On lance le jeu
+    this.model.startGame(out); //On lance le jeu
     this.view.openPlate(()=>{}, state); //On affiche le plateau
     //this.view.render(this.model.getState()); //On affiche le plateau
     let self=this; //On garde une référence vers this
@@ -71,7 +71,17 @@ class GameController {
     if(move===0) { //On vérifie si le coup est valide
       alert("Cette colonne est pleine");  //Si non, on affiche un message d'erreur
     } else if(move!==2) { //Sinon, on joue le coup
-      self.view.animateFalling(pos.x,self.model.getState(), () => { self.view.render(self.model.makeMove(self.model.board,col,self.model.currentPlayer)); self.isEndGame(self.model.getState()); }); //On anime le jeton
+      self.view.animateFalling(pos.x,self.model.getState(), () => { 
+        self.view.render(self.model.makeMove(self.model.board,col,self.model.currentPlayer)); 
+        self.isEndGame(self.model.getState());
+        if(self.model.currentPlayer.getColor()===self.model.computerPlayer.getColor() && self.model.gameState !== 0 ){ //Si c'est à l'ordinateur de jouer :
+          var bestMove = self.model.secondPlayer.getBestMove(self.model.getState(), self.model.secondPlayer.color, self.model);
+          self.view.animateFalling(self.view.getXbyRange(bestMove),self.model.getState(), () => { 
+            self.view.render(self.model.makeMove(self.model.getState(), bestMove , self.model.currentPlayer)); 
+            self.isEndGame(self.model.getState());
+          });
+        }
+      }); //On anime le jeton
     }
   }
 }

@@ -19,10 +19,8 @@ class Model {
             [1, 1, 1, 1, 1, 1, 2],
             [2, 2, 2, 2, 1, 2, 2]
         ];
-        this.firstPlayer = new Player(1, false);
-        this.secondPlayer = new Player(2, false);
-        this.currentPlayer = this.firstPlayer;
         this.gameState = 0;
+        this.computerPlayer = null;
     }
 
 
@@ -37,7 +35,7 @@ class Model {
     }
 
     // Fonction qui initialise le jeu
-    startGame() {
+    startGame(out) {
         this.board = [
             [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0],
@@ -46,6 +44,18 @@ class Model {
             [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0]
         ];
+        this.computerPlayer = null;
+        out = JSON.parse(out);
+        if(out.ai == "on"){
+            this.firstPlayer = new Player(1, false);
+            this.secondPlayer = new Player(2, true);
+            this.computerPlayer = this.secondPlayer;
+            console.log("AI ON");
+        } else {
+            this.firstPlayer = new Player(1, false);
+            this.secondPlayer = new Player(2, false);
+        }
+        this.currentPlayer = this.firstPlayer;
         this.gameState = 1;
     }
 
@@ -63,6 +73,20 @@ class Model {
         } // Pour chaque ligne du tableau on regarde si le coup est possible
         this.board = nextBoard; // On met à jour le plateau
         this.currentPlayer = player.getColor()===this.firstPlayer.getColor()?this.secondPlayer:this.firstPlayer; // On change de joueur
+        return nextBoard; // On retourne le plateau
+    }
+
+    getStateByMove(board2, column, player) {
+        let nextBoard = JSON.parse(JSON.stringify(board2)); // copie du plateau
+        for (var i = 0; i < 6; i++) {
+            if (nextBoard[i][column] !== 0) {''
+                nextBoard[i - 1][column] = player;
+                break;
+            }
+            if(i === 5) {
+                nextBoard[i][column] = player;
+            }
+        } // Pour chaque ligne du tableau on regarde si le coup est possible
         return nextBoard; // On retourne le plateau
     }
 
