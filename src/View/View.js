@@ -180,14 +180,16 @@ class View {
     }
 
     //Si l'animation est terminée :
-    let maxTime = this.paramsGame.speed==0?2500:1000;
-    let downTime = this.paramsGame.speed==0?300:150;
+    let maxTime = this.paramsGame.speed==0?2500:800;
+    let downTime = this.paramsGame.speed==0?300:120;
     if(timestamp-self.startTimer>=(maxTime-downTime*nbJetonOnLine)){
+      self.jeton.y = 145 + 85 * nbJetonOnLine;
       this.context.globalCompositeOperation = "destination-over";
       self.context.clearRect(0,0, self.MyCanva.width, self.MyCanva.height); //Table rase du canvas
       self.drawPlate(state); //Dessine le plateau
       this.context.globalCompositeOperation = "destination-over";
       self.jeton.draw(); //Dessine le jeton
+      self.context.clearRect(0,0, self.MyCanva.width, self.MyCanva.height); //Table rase du canvas
       this.jeton.x = 40;
       this.jeton.y = 50;
       this.jeton.vx = 0;
