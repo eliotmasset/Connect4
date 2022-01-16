@@ -76,7 +76,8 @@ class GameController {
         self.view.render(self.model.makeMove(self.model.board,col,self.model.currentPlayer)); 
         self.isEndGame(self.model.getState());
         if(self.model.computerPlayer !== null && self.model.currentPlayer.getColor()===self.model.computerPlayer.getColor() && self.model.gameState !== 0 ){ //Si c'est à l'ordinateur de jouer :
-          var bestMove = self.model.secondPlayer.getBestMove(self.model.getState(), self.model.secondPlayer.color, self.model);
+          var bestMove = self.model.secondPlayer.getBestMove(self.model.getState(), self.model.secondPlayer.difficulty, self.model);
+          console.log(self.model.secondPlayer.difficulty);
           self.view.animateFalling(self.view.getXbyRange(bestMove),self.model.getState(), () => { 
             self.view.render(self.model.makeMove(self.model.getState(), bestMove , self.model.currentPlayer)); 
             self.isEndGame(self.model.getState());

@@ -50,6 +50,7 @@ class Model {
             this.firstPlayer = new Player(1, false);
             this.secondPlayer = new Player(2, true);
             this.computerPlayer = this.secondPlayer;
+            this.secondPlayer.difficulty = out.difficulty;
             console.log("AI ON");
         } else {
             this.firstPlayer = new Player(1, false);

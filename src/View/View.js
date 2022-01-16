@@ -21,6 +21,7 @@ class View {
     this.xToken = 0;
     this.yToken = 0;
     this.canAnimate = true;
+    this.stop=false;
     this.board = [
       [ [x=>25,y=>25], 
     ] 
@@ -124,6 +125,12 @@ class View {
 
   //Fonction qui permet de dessiner le jeton
   drawBall(self,state, endFunction,timestamp) {
+    if(this.stop) {
+      window.cancelAnimationFrame(self.raf);
+      endFunction();
+      this.stop=false;
+      return;
+    }
 
     // Calcul le nombre de jetons sur la colonne :
     let nbJetonOnLine = 0;
@@ -189,11 +196,7 @@ class View {
     if(timestamp-self.startTimer>=(maxTime-downTime*nbJetonOnLine)){
       self.jeton.y = 145 + 85 * nbJetonOnLine;
       this.context.globalCompositeOperation = "destination-over";
-      self.context.clearRect(0,0, self.MyCanva.width, self.MyCanva.height); //Table rase du canvas
-      self.drawPlate(state); //Dessine le plateau
-      this.context.globalCompositeOperation = "destination-over";
       self.jeton.draw(); //Dessine le jeton
-      self.context.clearRect(0,0, self.MyCanva.width, self.MyCanva.height); //Table rase du canvas
       this.jeton.x = 40;
       this.jeton.y = 50;
       this.jeton.vx = 0;
@@ -202,9 +205,7 @@ class View {
       this.jeton.color = this.jeton.color == 'red' ? '#ffdd00' : 'red';
       self.startTimer = undefined;
       this.canAnimate = true;
-      window.cancelAnimationFrame(self.raf);
-      endFunction();
-      return;
+      this.stop=true;
     }
 
     //Continue l'animation :
