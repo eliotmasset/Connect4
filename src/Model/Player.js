@@ -44,7 +44,6 @@
                 bestMove = i;
             }
         }
-        console.log("BEST MOVE : " + bestMove);
         return bestMove;
     }
     
@@ -52,7 +51,6 @@
     minimax(board, depth, isMaximizing, model) {
         let position = JSON.parse(JSON.stringify(board));
         if(depth <= 0 || model.getWinner(position) != 0) {
-            console.log("EVALUATION : " + this.evalution(position, this.color));
             return this.evalution(position, this.color);
         }
         var evalScore = 0;
@@ -64,7 +62,6 @@
                     maxEval = Math.max(maxEval, evalScore);
                 }
             }
-            console.log("MAX : " + maxEval);
             return maxEval;
         } else {
             var minEval = Infinity;
@@ -74,7 +71,6 @@
                     minEval = Math.min(minEval, evalScore);
                 }
             }
-            console.log("MIN : " + minEval);
             return minEval;
         }
     }

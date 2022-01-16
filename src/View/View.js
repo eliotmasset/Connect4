@@ -102,14 +102,14 @@ class View {
   }
 
   //Fonction qui permet de démarer l'animation du jeton
-  animateFalling(posX, state , endFunction) {
+  animateFalling(posX, state , endFunction, getStateByMove) {
     //Initialise avant l'animation :
     this.canAnimate = false;
     this.marge=17;
     this.jeton.x=this.getRangeByX(posX);
 
     //Lance l'animation :
-    this.raf = window.requestAnimationFrame((timestamp) => this.drawBall(this,state, endFunction,timestamp));
+    this.raf = window.requestAnimationFrame((timestamp) => this.drawBall(this,state, endFunction,timestamp, getStateByMove));
 
     return true;
   }
@@ -124,7 +124,7 @@ class View {
   }
 
   //Fonction qui permet de dessiner le jeton
-  drawBall(self,state, endFunction,timestamp) {
+  drawBall(self,state, endFunction,timestamp, getStateByMove) {
     if(this.stop) {
       window.cancelAnimationFrame(self.raf);
       endFunction();
@@ -196,7 +196,9 @@ class View {
     if(timestamp-self.startTimer>=(maxTime-downTime*nbJetonOnLine)){
       self.jeton.y = 145 + 85 * nbJetonOnLine;
       this.context.globalCompositeOperation = "destination-over";
-      self.jeton.draw(); //Dessine le jeton
+      self.context.clearRect(0,0, self.MyCanva.width, self.MyCanva.height); //Table rase du canvas
+      self.drawPlate(getStateByMove(state,(self.jeton.x-145)/85, this.jeton.color == 'red' ? 1 : 2)); //Dessine le plateau
+      this.context.globalCompositeOperation = "destination-over";
       this.jeton.x = 40;
       this.jeton.y = 50;
       this.jeton.vx = 0;
@@ -209,7 +211,7 @@ class View {
     }
 
     //Continue l'animation :
-    self.raf = window.requestAnimationFrame((timestamp) => self.drawBall(this, state, endFunction,timestamp));
+    self.raf = window.requestAnimationFrame((timestamp) => self.drawBall(this, state, endFunction,timestamp, getStateByMove));
   }
 
   //Fonction qui permet de dessiner le plateau

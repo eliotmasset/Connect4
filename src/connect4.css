@@ -6,7 +6,7 @@ body {
   will-change: background-position;
       --bg-gradient-stop-1: #a7ffef;
       --bg-gradient-stop-2: #99b9ff;
-      --bg-gradient-stop-3: #5e86bd;
+      --bg-gradient-stop-3: #bdb75e;
     background-color: var(--bg-gradient-stop-1);
     background-image: radial-gradient(
         ellipse at 90% 30%,
