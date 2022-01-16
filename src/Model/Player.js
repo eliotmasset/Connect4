@@ -37,9 +37,9 @@
         var maxEval = -Infinity;
         var bestMove = 0;
         for(let i=0; i<position.length; i++) {
-            var evalScore = this.minimax(model.getStateByMove(position, i, this.color), depth-1, true, model);
+            var evalScore = this.minimax(model.getStateByMove(position, i, this.color), depth, true, model);
             console.log("i : "+i+" score : "+evalScore);
-            if(evalScore > maxEval) {
+            if(evalScore > maxEval && model.isValidMove(position, i)) {
                 maxEval = evalScore;
                 bestMove = i;
             }
@@ -57,15 +57,21 @@
         if(isMaximizing) {
             var maxEval = -Infinity;
             for(let i=0; i<position.length; i++) {
-                evalScore = this.minimax(model.getStateByMove(position, i, this.color==1?2:1), depth-1, false, model);
-                maxEval = Math.max(maxEval, evalScore);
+                console.log(position);
+                if(model.isValidMove(position, i)) {
+                    evalScore = this.minimax(model.getStateByMove(position, i, this.color==1?2:1), depth-1, false, model);
+                    maxEval = Math.max(maxEval, evalScore);
+                }
             }
             return maxEval;
         } else {
             var minEval = Infinity;
             for(let i=0; i<position.length; i++) {
-                evalScore = this.minimax(model.getStateByMove(position, i, this.color==1?2:1), depth-1, true, model);
-                minEval = Math.min(minEval, evalScore);
+                console.log(position);
+                if(model.isValidMove(position, i)) {
+                    evalScore = this.minimax(model.getStateByMove(position, i, this.color==1?2:1), depth-1, true, model);
+                    minEval = Math.min(minEval, evalScore);
+                }
             }
             return minEval;
         }

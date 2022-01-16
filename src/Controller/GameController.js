@@ -33,6 +33,7 @@ class GameController {
     let state = this.model.getState();
     this.model.startGame(out); //On lance le jeu
     this.view.openPlate(()=>{}, state); //On affiche le plateau
+    this.view.jeton.color = "red"; //On définit la première couleur du jeton
     //this.view.render(this.model.getState()); //On affiche le plateau
     let self=this; //On garde une référence vers this
     this.view.MyCanva.addEventListener("click", (e) =>  //On ajoute un écouteur d'événement de clic sur le canvas

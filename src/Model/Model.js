@@ -63,7 +63,7 @@ class Model {
     makeMove(board, column, player) {
         var nextBoard = board.slice(); // copie du plateau
         for (var i = 0; i < 6; i++) {
-            if (nextBoard[i][column] !== 0) {
+            if (nextBoard[i][column] !== 0 && nextBoard[i - 1] !== undefined ) {
                 nextBoard[i - 1][column] = player.getColor();
                 break;
             }
@@ -79,7 +79,7 @@ class Model {
     getStateByMove(board2, column, player) {
         let nextBoard = JSON.parse(JSON.stringify(board2)); // copie du plateau
         for (var i = 0; i < 6; i++) {
-            if (nextBoard[i][column] !== 0) {''
+            if (nextBoard[i][column] !== 0 && nextBoard[i - 1] !== undefined ) {
                 nextBoard[i - 1][column] = player;
                 break;
             }
