@@ -37,7 +37,7 @@
         let position = JSON.parse(JSON.stringify(board));
         var maxEval = -Infinity;
         var bestMove = 0;
-        for(let i=0; i<position.length; i++) {
+        for(let i=0; i<7; i++) {
             var evalScore = this.minimax(model.getStateByMove(position, i, this.color), depth, false, model);
             if(evalScore > maxEval && model.isValidMove(position, i)) {
                 maxEval = evalScore;
@@ -56,7 +56,7 @@
         var evalScore = 0;
         if(isMaximizing) {
             var maxEval = -Infinity;
-            for(let i=0; i<7; i++) {
+            for(let i=0; i<7; i++) { // The best move we can do
                 if(model.isValidMove(position, i)) {
                     evalScore = this.minimax(model.getStateByMove(position, i, this.color), depth-1, false, model);
                     maxEval = Math.max(maxEval, evalScore);
@@ -65,7 +65,7 @@
             return maxEval;
         } else {
             var minEval = Infinity;
-            for(let i=0; i<7; i++) {
+            for(let i=0; i<7; i++) { // The worst move the opponent can do
                 if(model.isValidMove(position, i)) {
                     evalScore = this.minimax(model.getStateByMove(position, i, this.color==1?2:1), depth-1, true, model);
                     minEval = Math.min(minEval, evalScore);
@@ -142,28 +142,28 @@
         for (var i = 0; i < 6; i++) { // row
             for (var j = 0; j < 4; j++) { // column
                 if (board[i][j] !== 0 && board[i][j] === board[i][j + 1] && board[i][j] === board[i][j + 2] && board[i][j] === board[i][j + 3]) {
-                    score = board[i][j] === player ? score + 30 : score - 60;
+                    score = board[i][j] === player ? score + 30 : score - 100;
                 }
             }
         }
         for (var i = 0; i < 3; i++) { // row
             for (var j = 0; j < 7; j++) { // column
                 if (board[i][j] !== 0 && board[i][j] === board[i + 1][j] && board[i][j] === board[i + 2][j] && board[i][j] === board[i + 3][j]) {
-                    score = board[i][j] === player ? score + 30 : score - 60;
+                    score = board[i][j] === player ? score + 30 : score - 100;
                 }
             }
         }
         for (var i = 0; i < 3; i++) { // row
             for (var j = 0; j < 4; j++) { // column
                 if (board[i][j] !== 0 && board[i][j] === board[i + 1][j + 1] && board[i][j] === board[i + 2][j + 2] && board[i][j] === board[i + 3][j + 3]) {
-                    score = board[i][j] === player ? score + 30 : score - 60;
+                    score = board[i][j] === player ? score + 30 : score - 100;
                 }
             }
         }
         for (var i = 3; i < 6; i++) { // row
             for (var j = 0; j < 4; j++) { // column
                 if (board[i][j] !== 0 && board[i][j] === board[i - 1][j + 1] && board[i][j] === board[i - 2][j + 2] && board[i][j] === board[i - 3][j + 3]) {
-                    score = board[i][j] === player ? score + 30 : score - 60;
+                    score = board[i][j] === player ? score + 30 : score - 100;
                 }
             }
         }
