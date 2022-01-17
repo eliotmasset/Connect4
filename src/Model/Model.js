@@ -47,13 +47,13 @@ class Model {
         this.computerPlayer = null;
         out = JSON.parse(out);
         if(out.ai == "on"){
-            this.firstPlayer = new Player(1, false);
-            this.secondPlayer = new Player(2, true);
+            this.firstPlayer = new Player(out.player == 1 ? 1 : 2, false);
+            this.secondPlayer = new Player(out.player == 1 ? 2 : 1, true);
             this.computerPlayer = this.secondPlayer;
             this.secondPlayer.difficulty = out.difficulty;
         } else {
-            this.firstPlayer = new Player(1, false);
-            this.secondPlayer = new Player(2, false);
+            this.firstPlayer = new Player(out.player == 1 ? 1 : 2, false);
+            this.secondPlayer = new Player(out.player == 1 ? 2 : 1, false);
         }
         this.currentPlayer = out.player == 1 ? this.firstPlayer : this.secondPlayer;
         this.gameState = 1;
