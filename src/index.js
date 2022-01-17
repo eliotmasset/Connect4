@@ -6,5 +6,5 @@ import { Controller } from "./Controller/Controller.js";
 import { View } from "./View/View.js";
 import { Model } from "./Model/Model.js";
 //Initialisation des variables :
-document.body.innerHTML=body;
+document.body.innerHTML = body;
 const app = new Controller(new Model(), new View("connect4Canvas"));
