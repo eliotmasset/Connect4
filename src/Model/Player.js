@@ -150,28 +150,28 @@
         for (var i = 0; i < 6; i++) { // row
             for (var j = 0; j < 4; j++) { // column
                 if (board[i][j] !== 0 && board[i][j] === board[i][j + 1] && board[i][j] === board[i][j + 2] && board[i][j] === board[i][j + 3]) {
-                    score = board[i][j] === player ? score + 30 : score - 100;
+                    score = board[i][j] === player ? score + 50 : score - 150;
                 }
             }
         }
         for (var i = 0; i < 3; i++) { // row
             for (var j = 0; j < 7; j++) { // column
                 if (board[i][j] !== 0 && board[i][j] === board[i + 1][j] && board[i][j] === board[i + 2][j] && board[i][j] === board[i + 3][j]) {
-                    score = board[i][j] === player ? score + 30 : score - 100;
+                    score = board[i][j] === player ? score + 50 : score - 150;
                 }
             }
         }
         for (var i = 0; i < 3; i++) { // row
             for (var j = 0; j < 4; j++) { // column
                 if (board[i][j] !== 0 && board[i][j] === board[i + 1][j + 1] && board[i][j] === board[i + 2][j + 2] && board[i][j] === board[i + 3][j + 3]) {
-                    score = board[i][j] === player ? score + 30 : score - 100;
+                    score = board[i][j] === player ? score + 50 : score - 150;
                 }
             }
         }
         for (var i = 3; i < 6; i++) { // row
             for (var j = 0; j < 4; j++) { // column
                 if (board[i][j] !== 0 && board[i][j] === board[i - 1][j + 1] && board[i][j] === board[i - 2][j + 2] && board[i][j] === board[i - 3][j + 3]) {
-                    score = board[i][j] === player ? score + 30 : score - 100;
+                    score = board[i][j] === player ? score + 50 : score - 150;
                 }
             }
         }
