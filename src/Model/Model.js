@@ -55,7 +55,7 @@ class Model {
             this.firstPlayer = new Player(1, false);
             this.secondPlayer = new Player(2, false);
         }
-        this.currentPlayer = this.firstPlayer;
+        this.currentPlayer = out.player == 1 ? this.firstPlayer : this.secondPlayer;
         this.gameState = 1;
     }
 

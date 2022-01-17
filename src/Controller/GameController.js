@@ -32,10 +32,20 @@ class GameController {
     if(!this.view.getCanAnimate()) return 0;
     let state = this.model.getState();
     this.model.startGame(out); //On lance le jeu
-    this.view.openPlate(()=>{}, state); //On affiche le plateau
+    this.view.setStartPlayer(JSON.parse(out).player); //On définit le joueur qui commence
+
+    let self = this;
+    this.view.openPlate(()=>{ //fonction de fin d'animation
+      if(JSON.parse(out).player==2 && JSON.parse(out).ai == "on") { //Si c'est à l'ordinateur de jouer
+        this.view.jeton.color = "#ffdd00";
+        var bestMove = 3;
+        self.view.animateFalling(self.view.getXbyRange(bestMove),self.model.getState(), () => { 
+          self.view.render(self.model.makeMove(self.model.getState(), bestMove, self.model.currentPlayer)); 
+        }, () => self.model.getStateByMove(self.model.getState(), 3, 2));
+      }
+    }, state); //On affiche le plateau
+
     this.view.jeton.color = "red"; //On définit la première couleur du jeton
-    //this.view.render(this.model.getState()); //On affiche le plateau
-    let self=this; //On garde une référence vers this
     this.view.MyCanva.addEventListener("click", (e) =>  //On ajoute un écouteur d'événement de clic sur le canvas
         self.clickOnCanva(e, self)
     );

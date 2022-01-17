@@ -204,7 +204,7 @@ class View {
       this.jeton.vx = 0;
       this.jeton.vy = 2;
       this.marge=17;
-      this.jeton.color = this.jeton.color == 'red' ? '#ffdd00' : 'red';
+      this.jeton.color = this.jeton.color == this.getColorByPlayer(this.startPlayer) ? this.getColorByPlayer(this.startPlayer==1?2:1) : this.getColorByPlayer(this.startPlayer);
       self.startTimer = undefined;
       this.canAnimate = true;
       this.stop=true;
@@ -212,6 +212,18 @@ class View {
 
     //Continue l'animation :
     self.raf = window.requestAnimationFrame((timestamp) => self.drawBall(this, state, endFunction,timestamp, getStateByMove));
+  }
+
+  setStartPlayer(startPlayer) {
+    this.startPlayer = startPlayer;
+  }
+
+  getColorByPlayer(player) {
+    if(player==1) {
+      return 'red';
+    } else {
+      return '#ffdd00';
+    }
   }
 
   //Fonction qui permet de dessiner le plateau
