@@ -38,7 +38,7 @@
         var maxEval = -Infinity;
         var bestMove = 0;
         for(let i=0; i<7; i++) {
-            var evalScore = this.minimax(model.getStateByMove(position, i, this.color), depth, false, model);
+            var evalScore = this.minimax(model.getStateByMove(position, i, this.color), depth, false, -Infinity, +Infinity, model);
             if(evalScore > maxEval && model.isValidMove(position, i)) {
                 maxEval = evalScore;
                 bestMove = i;
@@ -48,7 +48,7 @@
     }
     
     // Fonction MINAMAX
-    minimax(board, depth, isMaximizing, model) {
+    minimax(board, depth, isMaximizing, alpha, beta, model) {
         let position = JSON.parse(JSON.stringify(board));
         if(depth <= 0 || model.getWinner(position) != 0) {
             return this.evalution(position, this.color);
@@ -58,8 +58,12 @@
             var maxEval = -Infinity;
             for(let i=0; i<7; i++) { // The best move we can do
                 if(model.isValidMove(position, i)) {
-                    evalScore = this.minimax(model.getStateByMove(position, i, this.color), depth-1, false, model);
+                    evalScore = this.minimax(model.getStateByMove(position, i, this.color), depth-1, false, alpha, beta, model);
                     maxEval = Math.max(maxEval, evalScore);
+                    alpha = Math.max(alpha, evalScore);
+                    if(beta <= alpha) {
+                        break;
+                    }
                 }
             }
             return maxEval;
@@ -67,8 +71,12 @@
             var minEval = Infinity;
             for(let i=0; i<7; i++) { // The worst move the opponent can do
                 if(model.isValidMove(position, i)) {
-                    evalScore = this.minimax(model.getStateByMove(position, i, this.color==1?2:1), depth-1, true, model);
+                    evalScore = this.minimax(model.getStateByMove(position, i, this.color==1?2:1), depth-1, true, alpha, beta, model);
                     minEval = Math.min(minEval, evalScore);
+                    beta = Math.min(beta, evalScore);
+                    if(beta <= alpha) {
+                        break;
+                    }
                 }
             }
             return minEval;
