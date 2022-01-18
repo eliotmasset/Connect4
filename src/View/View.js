@@ -62,7 +62,7 @@ class View {
 
   //Fonction qui permet de dessiner un rectangle avec des coins arrondis
   roundRect(x, y, w, h, radius) {
-    this.context.strokeStyle = "blue";
+    this.context.strokeStyle = "rgba(0, 191, 255, 1)";
     var r = x + w;
     var b = y + h;
     this.context.beginPath();
