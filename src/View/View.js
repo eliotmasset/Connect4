@@ -41,7 +41,66 @@ class View {
       }
       this.Range[i] = 145 + 85 * i;
     }
+
+    var gif = document.querySelector("img.gif");
+    this.generateBackgroundEvents(gif);
+}
+
+generateBackgroundEvents(gif) {
+  let gifRand = Math.floor(Math.random() * 7);
+  switch (gifRand) {
+    case 0:
+      gif.src = "https://64.media.tumblr.com/b7e03e58cfeb86aeb04974b2678f4c18/tumblr_mr1u7mCQIS1qkyy30o1_500.gifv";
+      break;
+    case 1:
+      gif.src = "https://media.giphy.com/media/dWlClFAqCjyM6Xu2Lt/giphy.gif";
+      break;
+    case 2:
+      gif.src = "https://media.giphy.com/media/AFuvqdSLGoaJGTE7Iy/giphy.gif";
+      break;
+    case 3:
+      gif.src = "https://media.giphy.com/media/26DNgQlEN6FmKiiNa/giphy.gif";
+      break;
+    case 4:
+      gif.src = "https://media.giphy.com/media/6GFsg3WbdP9BIOXWBw/giphy.gif";
+      break;
+    case 5:
+      gif.src = "https://media.giphy.com/media/7UtAZDSUjyo6nJ56qy/giphy.gif";
+      break;
+    case 6:
+      gif.src = "https://media.giphy.com/media/10HTAgEA1o5A9a/giphy.gif";
+      break;
   }
+  gif.style.position = "absolute";
+
+  let directionRand = Math.floor(Math.random() * 4);
+  switch (directionRand) {
+    case 0:
+      gif.style.width = "200px";
+      gif.className="gif gif1";
+      break;
+    case 1:
+      gif.style.width = "200px";
+      gif.className="gif gif2";
+      break;
+    case 2:
+      gif.style.width = "200px";
+      gif.className="gif gif3";
+      break;
+    case 3:
+      gif.style.width = "200px";
+      gif.className="gif gif4";
+      break;
+  }
+  // Reload animation
+  var newone = gif.cloneNode(true);
+  gif.parentNode.replaceChild(newone, gif);
+
+  var time = Math.random() * (20000 - 6000) + 7000;
+
+  setTimeout(()=>this.generateBackgroundEvents(newone),time);
+  return true;
+}
 
   //Fonction de rendu
   render(state) {
@@ -124,7 +183,6 @@ class View {
       window.cancelAnimationFrame(self.raf);
       endFunction();
       this.stop = false;
-      console.log(getComputedStyle(document.documentElement).getPropertyValue("--jeton"));
       if(getComputedStyle(document.documentElement).getPropertyValue("--jeton") == "red"){
         document.documentElement.style.setProperty('--jeton', '#ffdd00');
       } else {

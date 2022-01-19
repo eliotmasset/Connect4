@@ -18,10 +18,6 @@ import { GameController } from "./GameController.js";
     }
 
     init() {
-    document.querySelector("video").play(); //On lance la vidéo
-    document.querySelector("video").addEventListener('canplay', function() {
-      document.querySelector("video").play(); // play it
-    }, false);
     }
   }
   
