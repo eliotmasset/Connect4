@@ -82,7 +82,7 @@ class View {
   getRangeByX(x) {
     let range = 0;
     for (var i = 0; i <= this.Range.length; i++) {
-      if (this.Range[i] > x - 90 && x > 145) {
+      if (this.Range[i] > x - 35 && x > 95) {
         range = this.Range[i];
         break;
       }

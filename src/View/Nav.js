@@ -124,6 +124,9 @@ import $ from "jquery";
       let self=this; //On garde une référence vers this
       $(document).ready(function() {
         $(document).on('submit', '#form-connect4', function() {
+          return false;
+        });
+        $(document).on('mousedown', '#form-connect4 button', function() {
           let out = JSON.stringify($('form').serializeObject()); //On récupère les données du formulaire
           self.submit_function(out);
           return false;
