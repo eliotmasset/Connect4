@@ -124,6 +124,12 @@ class View {
       window.cancelAnimationFrame(self.raf);
       endFunction();
       this.stop = false;
+      console.log(getComputedStyle(document.documentElement).getPropertyValue("--jeton"));
+      if(getComputedStyle(document.documentElement).getPropertyValue("--jeton") == "red"){
+        document.documentElement.style.setProperty('--jeton', '#ffdd00');
+      } else {
+        document.documentElement.style.setProperty('--jeton', 'red');
+      }
       return;
     }
 

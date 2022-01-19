@@ -38,6 +38,7 @@ class GameController {
     this.view.openPlate(()=>{ //fonction de fin d'animation
       if(JSON.parse(out).player==2 && JSON.parse(out).ai == "on") { //Si c'est à l'ordinateur de jouer
         this.view.jeton.color = "#ffdd00";
+        document.documentElement.style.setProperty('--jeton', '#ffdd00');
         var bestMove = 3;
         self.view.animateFalling(self.view.getXbyRange(bestMove),self.model.getState(), () => { 
           self.view.render(self.model.makeMove(self.model.getState(), bestMove, self.model.currentPlayer)); 
@@ -46,6 +47,7 @@ class GameController {
     }, state); //On affiche le plateau
 
     this.view.jeton.color = "red"; //On définit la première couleur du jeton
+    document.documentElement.style.setProperty('--jeton', 'red');
     this.view.MyCanva.addEventListener("click", (e) =>  //On ajoute un écouteur d'événement de clic sur le canvas
         self.clickOnCanva(e, self)
     );

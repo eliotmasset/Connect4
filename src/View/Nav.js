@@ -46,7 +46,7 @@ import $ from "jquery";
         player2.value = '2';
         let label_player2 = document.createElement('label');
         label_player2.htmlFor = 'player2';
-        label_player2.innerHTML = 'Player 2';
+        label_player2.innerHTML = 'Player 2 (IA)';
         let cat2 = document.createElement('h4');
         cat2.innerHTML = 'Difficulty';
         let difficulty = document.createElement('input');
