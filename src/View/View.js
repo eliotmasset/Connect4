@@ -21,11 +21,9 @@ class View {
     this.canAnimate = true;
     this.stop = false;
     this.board = [[[(x) => 25, (y) => 25]]];
-    this.jeton = new Jeton(this.context);
+    this.jeton = new Jeton(this.context, "red");
     this.raf;
     this.arrow = new Arrow(document.getElementById("coin"), this.MyCanva);
-    this.paramsGame = new ParamsGame();
-    this.paramsGame.drawSwitchAnimateSpeed();
 
     //Initialisation des variables de la classe
     this.minHeightPlate = 150;
@@ -103,7 +101,16 @@ generateBackgroundEvents(gif) {
 }
 
   //Fonction de rendu
-  render(state) {
+  render(state, setFirstColor, setSecondColor, getFirstColor, getSecondColor) {
+    // Get and set the color for the first time
+    if(setFirstColor!=undefined && setSecondColor!=undefined && getFirstColor!=undefined && getSecondColor!=undefined){
+      this.setFirstColor= setFirstColor;
+      this.setSecondColor= setSecondColor;
+      this.getFirstColor= getFirstColor;
+      this.getSecondColor= getSecondColor;
+      this.paramsGame = new ParamsGame((firstColor) => this.setFirstColor(firstColor), (secondColor) => this.setSecondColor(secondColor));
+      this.paramsGame.drawSwitchAnimateSpeed();
+    }
     //Rectangle
     this.context.save();
     this.drawPlate(state);
@@ -159,6 +166,7 @@ generateBackgroundEvents(gif) {
     this.canAnimate = false;
     this.marge = 17;
     this.jeton.x = this.getRangeByX(posX);
+    this.jeton.color = getComputedStyle(document.documentElement).getPropertyValue("--jeton");
 
     //Lance l'animation :
     this.raf = window.requestAnimationFrame((timestamp) =>
@@ -181,13 +189,16 @@ generateBackgroundEvents(gif) {
   drawBall(self, state, endFunction, timestamp, getStateByMove) {
     if (this.stop) {
       window.cancelAnimationFrame(self.raf);
+      
+      //On inverse les couleurs :
+      if(getComputedStyle(document.documentElement).getPropertyValue("--jeton") == this.getFirstColor()){
+        document.documentElement.style.setProperty('--jeton', this.getSecondColor());
+      } else {
+        document.documentElement.style.setProperty('--jeton', this.getFirstColor());
+      }
+      
       endFunction();
       this.stop = false;
-      if(getComputedStyle(document.documentElement).getPropertyValue("--jeton") == "red"){
-        document.documentElement.style.setProperty('--jeton', '#ffdd00');
-      } else {
-        document.documentElement.style.setProperty('--jeton', 'red');
-      }
       return;
     }
 
@@ -258,7 +269,7 @@ generateBackgroundEvents(gif) {
         getStateByMove(
           state,
           (self.jeton.x - 145) / 85,
-          this.jeton.color == "red" ? 1 : 2
+          this.jeton.color == this.getFirstColor() ? 1 : 2
         )
       ); //Dessine le plateau
       this.context.globalCompositeOperation = "destination-over";
@@ -288,15 +299,16 @@ generateBackgroundEvents(gif) {
 
   getColorByPlayer(player) {
     if (player == 1) {
-      return "red";
+      return this.getFirstColor();
     } else {
-      return "#ffdd00";
+      return this.getSecondColor();
     }
   }
 
   //Fonction qui permet de dessiner le plateau
   drawPlate(state = null) {
     this.context.beginPath();
+    this.context.globalCompositeOperation = "source-over";
     this.context.fillStyle = "rgba(0, 191, 255, 1)";
     this.context.lineWidth = "10";
     this.roundRect(100, 100, 600, 515, 20);
@@ -311,10 +323,10 @@ generateBackgroundEvents(gif) {
         this.context.globalCompositeOperation = "destination-out";
         if (state != null && state[i][j] == 1) {
           this.context.globalCompositeOperation = "source-over";
-          this.context.fillStyle = "rgba(255, 0, 0, 1)";
+          this.context.fillStyle = this.getFirstColor();
         } else if (state != null && state[i][j] == 2) {
           this.context.globalCompositeOperation = "source-over";
-          this.context.fillStyle = "rgba(252, 244, 3, 1)";
+          this.context.fillStyle = this.getSecondColor();
         }
         this.context.arc(145 + 85 * j, 145 + 85 * i, 35, Math.PI * 2, false);
         this.context.fill();
@@ -335,12 +347,12 @@ generateBackgroundEvents(gif) {
       for (var j = 0; j <= 6; j++) {
         if (state != null && state[i][j] == 1) {
           jetons[i][j] = new Jeton(this.context);
-          jetons[i][j].color = "red";
+          jetons[i][j].color = this.getFirstColor();
           jetons[i][j].x = 145 + 85 * j;
           jetons[i][j].y = 145 + 85 * i;
         } else if (state != null && state[i][j] == 2) {
           jetons[i][j] = new Jeton(this.context);
-          jetons[i][j].color = "#ffdd00";
+          jetons[i][j].color = this.getSecondColor();
           jetons[i][j].x = 145 + 85 * j;
           jetons[i][j].y = 145 + 85 * i;
         }

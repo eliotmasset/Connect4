@@ -10,6 +10,8 @@ class GameController {
 
   // Constructeur
   constructor(model, view) {
+    this.firstColor = "red";
+    this.secondColor = "#ffdd00";
     this.model = model; //Référence sur le modèle
     this.view = view; //Référence sur la vue
     this.view.render(
@@ -20,10 +22,46 @@ class GameController {
         [2, 1, 2, 2, 1, 2, 2],
         [1, 1, 1, 1, 1, 1, 2],
         [2, 2, 2, 2, 1, 2, 2]
-      ]
+      ], 
+      (color)=>this.setFirstColor(color), (color)=>this.setSecondColor(color), 
+      ()=>this.getFirstColor(), ()=>this.getSecondColor()
     ); // On affiche le plateau en 4
     this.navView = new Nav(document.querySelector('nav'),(out) => this.startGame(out)); //On crée un nouveau Nav
     this.navView.draw();
+  }
+  
+  setFirstColor(firstColor) {
+    this.firstColor = firstColor;
+    if(this.model.currentPlayer == undefined) {
+      document.documentElement.style.setProperty('--jeton', firstColor);
+      this.view.drawPlate(this.model.getState());
+      return;
+    }
+    if(this.model.currentPlayer.color == 1) {
+      document.documentElement.style.setProperty('--jeton', firstColor);
+    }
+    this.view.drawPlate(this.model.getState());
+  }
+
+  setSecondColor(secondColor) {
+    this.secondColor = secondColor;
+    if(this.model.currentPlayer == undefined) {
+      document.documentElement.style.setProperty('--jeton', secondColor);
+      this.view.drawPlate(this.model.getState());
+      return;
+    }
+    if(this.model.currentPlayer.color == 2) {
+      document.documentElement.style.setProperty('--jeton', secondColor);
+    }
+    this.view.drawPlate(this.model.getState());
+  }
+
+  getFirstColor() {
+    return this.firstColor;
+  }
+
+  getSecondColor() {
+    return this.secondColor;
   }
 
 
@@ -37,8 +75,8 @@ class GameController {
     let self = this;
     this.view.openPlate(()=>{ //fonction de fin d'animation
       if(JSON.parse(out).player==2 && JSON.parse(out).ai == "on") { //Si c'est à l'ordinateur de jouer
-        this.view.jeton.color = "#ffdd00";
-        document.documentElement.style.setProperty('--jeton', '#ffdd00');
+        this.view.jeton.color = this.secondColor;
+        document.documentElement.style.setProperty('--jeton', this.secondColor);
         var bestMove = 3;
         self.view.animateFalling(self.view.getXbyRange(bestMove),self.model.getState(), () => { 
           self.view.render(self.model.makeMove(self.model.getState(), bestMove, self.model.currentPlayer)); 
@@ -46,8 +84,8 @@ class GameController {
       }
     }, state); //On affiche le plateau
 
-    this.view.jeton.color = "red"; //On définit la première couleur du jeton
-    document.documentElement.style.setProperty('--jeton', 'red');
+    this.view.jeton.color = JSON.parse(out).player == 1 ? this.firstColor : this.secondColor; //On définit la première couleur du jeton
+    document.documentElement.style.setProperty('--jeton', JSON.parse(out).player == 1 ? this.firstColor : this.secondColor);
     this.view.MyCanva.addEventListener("click", (e) =>  //On ajoute un écouteur d'événement de clic sur le canvas
         self.clickOnCanva(e, self)
     );
@@ -71,7 +109,7 @@ class GameController {
   //Fonction lancée lorsque le jeu est terminé
   endGame(state, winner) {
     this.view.MyCanva.removeEventListener("click", this.clickOnCanva); //On supprime l'écouteur d'événement de clic)
-    alert("Le joueur " + (winner===1 ? "rouge" : "jaune") + " a gagné"); //On affiche un message de fin de partie
+    alert("Le joueur " + winner + " a gagné"); //On affiche un message de fin de partie
   }
 
   //Fonction au clic sur le canvas

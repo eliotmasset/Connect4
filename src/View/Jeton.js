@@ -6,14 +6,14 @@
   * Version: 1.0
  **/
 class Jeton {
-    constructor(context) {
+    constructor(context, color) {
         this.context = context;
         this.x= 40;
         this.y= 50;
         this.vx= 0;
         this.vy= 2;
         this.radius= 35;
-        this.color= 'red';
+        this.color= color;
     }
 
     draw() {

@@ -52,15 +52,18 @@ class Model {
             this.computerPlayer = this.secondPlayer;
             this.secondPlayer.difficulty = out.difficulty;
         } else {
-            this.firstPlayer = new Player(out.player == 1 ? 1 : 2, false);
-            this.secondPlayer = new Player(out.player == 1 ? 2 : 1, false);
+            this.firstPlayer = new Player(1, false);
+            this.secondPlayer = new Player(2, false);
         }
         this.currentPlayer = out.player == 1 ? this.firstPlayer : this.secondPlayer;
+        console.log(out.player);
+        console.log(this.currentPlayer);
         this.gameState = 1;
     }
 
     // Fonction qui effectue le coup
     makeMove(board, column, player) {
+        console.log(player);
         var nextBoard = board.slice(); // copie du plateau
         for (var i = 0; i < 6; i++) {
             if (nextBoard[i][column] !== 0 && nextBoard[i - 1] !== undefined ) {
