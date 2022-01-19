@@ -17,7 +17,7 @@ class Arrow {
             return 0;
         }
         this.element.style.display = 'block';
-        this.element.style.left = collumn+this.canvas.getBoundingClientRect().left+5-((collumn-145)/85) + 'px';
+        this.element.style.left = collumn+this.canvas.getBoundingClientRect().left-35-((collumn-145)/85) + 'px';
     }
 
     hide() {

@@ -23,7 +23,7 @@ class View {
     this.board = [[[(x) => 25, (y) => 25]]];
     this.jeton = new Jeton(this.context);
     this.raf;
-    this.arrow = new Arrow(document.getElementById("arrow-down"), this.MyCanva);
+    this.arrow = new Arrow(document.getElementById("coin"), this.MyCanva);
     this.paramsGame = new ParamsGame();
     this.paramsGame.drawSwitchAnimateSpeed();
 
