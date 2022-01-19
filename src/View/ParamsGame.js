@@ -14,6 +14,8 @@
     }
 
     drawSwitchAnimateSpeed() {
+        this.container = document.createElement('div');
+        this.container.id = 'pan-bottom';
         let checkAnimateSpeed = document.createElement('input');
         checkAnimateSpeed.type = 'checkbox';
         checkAnimateSpeed.name = 'animateSpeed';
@@ -23,10 +25,11 @@
         });
         let labelAnimateSpeed = document.createElement('label');
         labelAnimateSpeed.htmlFor = 'animateSpeed';
-        labelAnimateSpeed.innerHTML = 'Quick Mode';
+        labelAnimateSpeed.innerHTML = '<i class="fas fa-stopwatch"></i>';
         this.switchAnimateSpeed.appendChild(checkAnimateSpeed);
         this.switchAnimateSpeed.appendChild(labelAnimateSpeed);
-        document.querySelector('content').appendChild(this.switchAnimateSpeed);
+        this.container.appendChild(this.switchAnimateSpeed);
+        document.querySelector('content').appendChild(this.container);
     }
 }
 
