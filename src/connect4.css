@@ -243,7 +243,8 @@ body {
 #coin {
   background: var(--jeton);
   position: absolute;
-  top: 20px;
+  display: none;
+  top: 10px;
   width: 75px;
   height: 75px;
   opacity: 0.5;
