@@ -25,6 +25,10 @@ class View {
     this.raf;
     this.arrow = new Arrow(document.getElementById("coin"), this.MyCanva);
 
+    this.modal = document.getElementById("modal");
+    this.trigger = document.querySelector(".trigger");
+    this.closeButton = document.getElementById("buttonClose");
+
     //Initialisation des variables de la classe
     this.minHeightPlate = 150;
     this.maxHeightPlate = 571;
@@ -42,73 +46,99 @@ class View {
 
     var gif = document.querySelector("img.gif");
     this.generateBackgroundEvents(gif);
-}
-
-generateBackgroundEvents(gif) {
-  let gifRand = Math.floor(Math.random() * 7);
-  switch (gifRand) {
-    case 0:
-      gif.src = "https://64.media.tumblr.com/b7e03e58cfeb86aeb04974b2678f4c18/tumblr_mr1u7mCQIS1qkyy30o1_500.gifv";
-      break;
-    case 1:
-      gif.src = "https://media.giphy.com/media/dWlClFAqCjyM6Xu2Lt/giphy.gif";
-      break;
-    case 2:
-      gif.src = "https://media.giphy.com/media/AFuvqdSLGoaJGTE7Iy/giphy.gif";
-      break;
-    case 3:
-      gif.src = "https://media.giphy.com/media/26DNgQlEN6FmKiiNa/giphy.gif";
-      break;
-    case 4:
-      gif.src = "https://media.giphy.com/media/6GFsg3WbdP9BIOXWBw/giphy.gif";
-      break;
-    case 5:
-      gif.src = "https://media.giphy.com/media/7UtAZDSUjyo6nJ56qy/giphy.gif";
-      break;
-    case 6:
-      gif.src = "https://media.giphy.com/media/10HTAgEA1o5A9a/giphy.gif";
-      break;
   }
-  gif.style.position = "absolute";
 
-  let directionRand = Math.floor(Math.random() * 4);
-  switch (directionRand) {
-    case 0:
-      gif.style.width = "200px";
-      gif.className="gif gif1";
-      break;
-    case 1:
-      gif.style.width = "200px";
-      gif.className="gif gif2";
-      break;
-    case 2:
-      gif.style.width = "200px";
-      gif.className="gif gif3";
-      break;
-    case 3:
-      gif.style.width = "200px";
-      gif.className="gif gif4";
-      break;
+  toggleModal(winner) {
+    var status = this.modal.classList.toggle("show-modal");
+    status ? this.updateWinMessage(winner) : false;
   }
-  // Reload animation
-  var newone = gif.cloneNode(true);
-  gif.parentNode.replaceChild(newone, gif);
 
-  var time = Math.random() * (20000 - 6000) + 7000;
+  updateWinMessage(winner) {
+    document.getElementById("winMessage").innerHTML =
+      "Le joueur " + winner + " a gagné.";
+  }
 
-  setTimeout(()=>this.generateBackgroundEvents(newone),time);
-  return true;
-}
+  windowOnClick(event) {
+    if (event.target === this.modal) {
+      console.log("wino");
+      this.toggleModal();
+    }
+  }
+
+  generateBackgroundEvents(gif) {
+    let gifRand = Math.floor(Math.random() * 7);
+    switch (gifRand) {
+      case 0:
+        gif.src =
+          "https://64.media.tumblr.com/b7e03e58cfeb86aeb04974b2678f4c18/tumblr_mr1u7mCQIS1qkyy30o1_500.gifv";
+        break;
+      case 1:
+        gif.src = "https://media.giphy.com/media/dWlClFAqCjyM6Xu2Lt/giphy.gif";
+        break;
+      case 2:
+        gif.src = "https://media.giphy.com/media/AFuvqdSLGoaJGTE7Iy/giphy.gif";
+        break;
+      case 3:
+        gif.src = "https://media.giphy.com/media/26DNgQlEN6FmKiiNa/giphy.gif";
+        break;
+      case 4:
+        gif.src = "https://media.giphy.com/media/6GFsg3WbdP9BIOXWBw/giphy.gif";
+        break;
+      case 5:
+        gif.src = "https://media.giphy.com/media/7UtAZDSUjyo6nJ56qy/giphy.gif";
+        break;
+      case 6:
+        gif.src = "https://media.giphy.com/media/10HTAgEA1o5A9a/giphy.gif";
+        break;
+    }
+    gif.style.position = "absolute";
+
+    let directionRand = Math.floor(Math.random() * 4);
+    switch (directionRand) {
+      case 0:
+        gif.style.width = "200px";
+        gif.className = "gif gif1";
+        break;
+      case 1:
+        gif.style.width = "200px";
+        gif.className = "gif gif2";
+        break;
+      case 2:
+        gif.style.width = "200px";
+        gif.className = "gif gif3";
+        break;
+      case 3:
+        gif.style.width = "200px";
+        gif.className = "gif gif4";
+        break;
+    }
+    // Reload animation
+    var newone = gif.cloneNode(true);
+    gif.parentNode.replaceChild(newone, gif);
+
+    var time = Math.random() * (20000 - 6000) + 7000;
+
+    setTimeout(() => this.generateBackgroundEvents(newone), time);
+    return true;
+  }
 
   //Fonction de rendu
   render(state, setFirstColor, setSecondColor, getFirstColor, getSecondColor) {
     // Get and set the color for the first time
-    if(setFirstColor!=undefined && setSecondColor!=undefined && getFirstColor!=undefined && getSecondColor!=undefined){
-      this.setFirstColor= setFirstColor;
-      this.setSecondColor= setSecondColor;
-      this.getFirstColor= getFirstColor;
-      this.getSecondColor= getSecondColor;
-      this.paramsGame = new ParamsGame((firstColor) => this.setFirstColor(firstColor), (secondColor) => this.setSecondColor(secondColor));
+    if (
+      setFirstColor != undefined &&
+      setSecondColor != undefined &&
+      getFirstColor != undefined &&
+      getSecondColor != undefined
+    ) {
+      this.setFirstColor = setFirstColor;
+      this.setSecondColor = setSecondColor;
+      this.getFirstColor = getFirstColor;
+      this.getSecondColor = getSecondColor;
+      this.paramsGame = new ParamsGame(
+        (firstColor) => this.setFirstColor(firstColor),
+        (secondColor) => this.setSecondColor(secondColor)
+      );
       this.paramsGame.drawSwitchAnimateSpeed();
     }
     //Rectangle
@@ -119,6 +149,10 @@ generateBackgroundEvents(gif) {
       var mousePos = self.getRangeByX(self.getMousePos(evt).x);
       self.arrow.draw(mousePos, evt);
     });
+
+    //this.trigger.addEventListener("click", (e) => this.toggleModal());
+    // this.closeButton.addEventListener("click", this.toggleModal());
+    // this.window.addEventListener("click", this.windowOnClick(event));
   }
 
   //Fonction qui renvoie si oui ou non une animation est possible
@@ -166,7 +200,9 @@ generateBackgroundEvents(gif) {
     this.canAnimate = false;
     this.marge = 17;
     this.jeton.x = this.getRangeByX(posX);
-    this.jeton.color = getComputedStyle(document.documentElement).getPropertyValue("--jeton");
+    this.jeton.color = getComputedStyle(
+      document.documentElement
+    ).getPropertyValue("--jeton");
 
     //Lance l'animation :
     this.raf = window.requestAnimationFrame((timestamp) =>
@@ -189,14 +225,24 @@ generateBackgroundEvents(gif) {
   drawBall(self, state, endFunction, timestamp, getStateByMove) {
     if (this.stop) {
       window.cancelAnimationFrame(self.raf);
-      
+
       //On inverse les couleurs :
-      if(getComputedStyle(document.documentElement).getPropertyValue("--jeton") == this.getFirstColor()){
-        document.documentElement.style.setProperty('--jeton', this.getSecondColor());
+      if (
+        getComputedStyle(document.documentElement).getPropertyValue(
+          "--jeton"
+        ) == this.getFirstColor()
+      ) {
+        document.documentElement.style.setProperty(
+          "--jeton",
+          this.getSecondColor()
+        );
       } else {
-        document.documentElement.style.setProperty('--jeton', this.getFirstColor());
+        document.documentElement.style.setProperty(
+          "--jeton",
+          this.getFirstColor()
+        );
       }
-      
+
       endFunction();
       this.stop = false;
       return;

@@ -1,13 +1,12 @@
 /**
-  * Nom du fichier: GameController.js
-  * Auteur: Eliot Masset
-  * Dernière modification : 06/01/2021
-  * Description: Ce fichier contient les fonctions de la classe GameController
-  * Version: 1.0
+ * Nom du fichier: GameController.js
+ * Auteur: Eliot Masset
+ * Dernière modification : 06/01/2021
+ * Description: Ce fichier contient les fonctions de la classe GameController
+ * Version: 1.0
  **/
-import {Nav} from "../View/Nav.js";
+import { Nav } from "../View/Nav.js";
 class GameController {
-
   // Constructeur
   constructor(model, view) {
     this.firstColor = "red";
@@ -21,37 +20,41 @@ class GameController {
         [2, 2, 1, 2, 1, 2, 2],
         [2, 1, 2, 2, 1, 2, 2],
         [1, 1, 1, 1, 1, 1, 2],
-        [2, 2, 2, 2, 1, 2, 2]
-      ], 
-      (color)=>this.setFirstColor(color), (color)=>this.setSecondColor(color), 
-      ()=>this.getFirstColor(), ()=>this.getSecondColor()
+        [2, 2, 2, 2, 1, 2, 2],
+      ],
+      (color) => this.setFirstColor(color),
+      (color) => this.setSecondColor(color),
+      () => this.getFirstColor(),
+      () => this.getSecondColor()
     ); // On affiche le plateau en 4
-    this.navView = new Nav(document.querySelector('nav'),(out) => this.startGame(out)); //On crée un nouveau Nav
+    this.navView = new Nav(document.querySelector("nav"), (out) =>
+      this.startGame(out)
+    ); //On crée un nouveau Nav
     this.navView.draw();
   }
-  
+
   setFirstColor(firstColor) {
     this.firstColor = firstColor;
-    if(this.model.currentPlayer == undefined) {
-      document.documentElement.style.setProperty('--jeton', firstColor);
+    if (this.model.currentPlayer == undefined) {
+      document.documentElement.style.setProperty("--jeton", firstColor);
       this.view.drawPlate(this.model.getState());
       return;
     }
-    if(this.model.currentPlayer.color == 1) {
-      document.documentElement.style.setProperty('--jeton', firstColor);
+    if (this.model.currentPlayer.color == 1) {
+      document.documentElement.style.setProperty("--jeton", firstColor);
     }
     this.view.drawPlate(this.model.getState());
   }
 
   setSecondColor(secondColor) {
     this.secondColor = secondColor;
-    if(this.model.currentPlayer == undefined) {
-      document.documentElement.style.setProperty('--jeton', secondColor);
+    if (this.model.currentPlayer == undefined) {
+      document.documentElement.style.setProperty("--jeton", secondColor);
       this.view.drawPlate(this.model.getState());
       return;
     }
-    if(this.model.currentPlayer.color == 2) {
-      document.documentElement.style.setProperty('--jeton', secondColor);
+    if (this.model.currentPlayer.color == 2) {
+      document.documentElement.style.setProperty("--jeton", secondColor);
     }
     this.view.drawPlate(this.model.getState());
   }
@@ -64,40 +67,69 @@ class GameController {
     return this.secondColor;
   }
 
-
   // Fonction de début de partie
   startGame(out) {
-    if(!this.view.getCanAnimate()) return 0;
+    if (!this.view.getCanAnimate()) return 0;
     let state = this.model.getState();
     this.model.startGame(out); //On lance le jeu
     this.view.setStartPlayer(JSON.parse(out).player); //On définit le joueur qui commence
 
     let self = this;
-    this.view.openPlate(()=>{ //fonction de fin d'animation
-      if(JSON.parse(out).player==2 && JSON.parse(out).ai == "on") { //Si c'est à l'ordinateur de jouer
+    this.view.openPlate(() => {
+      //fonction de fin d'animation
+      if (JSON.parse(out).player == 2 && JSON.parse(out).ai == "on") {
+        //Si c'est à l'ordinateur de jouer
         this.view.jeton.color = this.secondColor;
-        document.documentElement.style.setProperty('--jeton', this.secondColor);
+        document.documentElement.style.setProperty("--jeton", this.secondColor);
         var bestMove = 3;
-        self.view.animateFalling(self.view.getXbyRange(bestMove),self.model.getState(), () => { 
-          self.view.render(self.model.makeMove(self.model.getState(), bestMove, self.model.currentPlayer)); 
-        }, () => self.model.getStateByMove(self.model.getState(), 3, 2));
+        self.view.animateFalling(
+          self.view.getXbyRange(bestMove),
+          self.model.getState(),
+          () => {
+            self.view.render(
+              self.model.makeMove(
+                self.model.getState(),
+                bestMove,
+                self.model.currentPlayer
+              )
+            );
+          },
+          () => self.model.getStateByMove(self.model.getState(), 3, 2)
+        );
       }
     }, state); //On affiche le plateau
 
-    this.view.jeton.color = JSON.parse(out).player == 1 ? this.firstColor : this.secondColor; //On définit la première couleur du jeton
-    document.documentElement.style.setProperty('--jeton', JSON.parse(out).player == 1 ? this.firstColor : this.secondColor);
-    this.view.MyCanva.addEventListener("click", (e) =>  //On ajoute un écouteur d'événement de clic sur le canvas
-        self.clickOnCanva(e, self)
+    this.view.jeton.color =
+      JSON.parse(out).player == 1 ? this.firstColor : this.secondColor; //On définit la première couleur du jeton
+    document.documentElement.style.setProperty(
+      "--jeton",
+      JSON.parse(out).player == 1 ? this.firstColor : this.secondColor
     );
-  }
+    this.view.MyCanva.addEventListener(
+      "click",
+      (
+        e //On ajoute un écouteur d'événement de clic sur le canvas
+      ) => self.clickOnCanva(e, self)
+    );
 
+    this.view.closeButton.addEventListener("mouseup", () => {
+      console.log("button");
+      this.view.toggleModal();
+      //alert("Triggered");
+    });
+    window.addEventListener("click", () => {
+      this.view.windowOnClick(event);
+    });
+  }
 
   //Fonction qui vérifie si le jeu est terminé
   isEndGame(state) {
     let winner = this.model.getWinner(this.model.board);
-    if(winner) { //Si le jeu est terminé 
+    if (winner) {
+      //Si le jeu est terminé
       this.model.gameState = 0;
-      if(winner === 3) { //Si il y a match nul
+      if (winner === 3) {
+        //Si il y a match nul
         this.view.MyCanva.removeEventListener("click", this.clickOnCanva); //On supprime l'écouteur d'événement de clic)
         alert("La partie se termine sur un match nul"); //On affiche un message de fin de partie
       } else {
@@ -109,32 +141,64 @@ class GameController {
   //Fonction lancée lorsque le jeu est terminé
   endGame(state, winner) {
     this.view.MyCanva.removeEventListener("click", this.clickOnCanva); //On supprime l'écouteur d'événement de clic)
-    alert("Le joueur " + winner + " a gagné"); //On affiche un message de fin de partie
+    this.view.toggleModal(winner); //On affiche un message de fin de partie
   }
 
   //Fonction au clic sur le canvas
   clickOnCanva(e, self) {
-    if(!this.view.getCanAnimate() || this.model.gameState === 0) return 0; //Si le jeton est en train de tomber, on ne fait rien
+    if (!this.view.getCanAnimate() || this.model.gameState === 0) return 0; //Si le jeton est en train de tomber, on ne fait rien
     let pos = self.view.getMousePos(e); //On récupère la position du clic
     let range = self.view.getRangeByX(pos.x); //On récupère la rangée de l'emplacement du clic
-    let col = (range-145)/85; //On récupère la colonne de l'emplacement du clic
-    let move = self.model.isValidMove(self.model.board,col);
-    if(move===0) { //On vérifie si le coup est valide
-      alert("Cette colonne est pleine");  //Si non, on affiche un message d'erreur
-    } else if(move!==2) { //Sinon, on joue le coup
-      self.view.animateFalling(pos.x,self.model.getState(), () => { 
-        self.view.render(self.model.makeMove(self.model.board,col,self.model.currentPlayer)); 
-        self.isEndGame(self.model.getState());
-        if(self.model.computerPlayer !== null && self.model.currentPlayer.getColor()===self.model.computerPlayer.getColor() && self.model.gameState !== 0 ){ //Si c'est à l'ordinateur de jouer :
-          var bestMove = self.model.secondPlayer.getBestMove(self.model.getState(), self.model.secondPlayer.difficulty, self.model);
-          self.view.animateFalling(self.view.getXbyRange(bestMove),self.model.getState(), () => { 
-            self.view.render(self.model.makeMove(self.model.getState(), bestMove , self.model.currentPlayer)); 
-            self.isEndGame(self.model.getState());
-          }, (board, column, player) => self.model.getStateByMove(board, column, player));
-        }
-      }, (board, column, player) => self.model.getStateByMove(board, column, player)); //On anime le jeton
+    let col = (range - 145) / 85; //On récupère la colonne de l'emplacement du clic
+    let move = self.model.isValidMove(self.model.board, col);
+    if (move === 0) {
+      //On vérifie si le coup est valide
+      alert("Cette colonne est pleine"); //Si non, on affiche un message d'erreur
+    } else if (move !== 2) {
+      //Sinon, on joue le coup
+      self.view.animateFalling(
+        pos.x,
+        self.model.getState(),
+        () => {
+          self.view.render(
+            self.model.makeMove(self.model.board, col, self.model.currentPlayer)
+          );
+          self.isEndGame(self.model.getState());
+          if (
+            self.model.computerPlayer !== null &&
+            self.model.currentPlayer.getColor() ===
+              self.model.computerPlayer.getColor() &&
+            self.model.gameState !== 0
+          ) {
+            //Si c'est à l'ordinateur de jouer :
+            var bestMove = self.model.secondPlayer.getBestMove(
+              self.model.getState(),
+              self.model.secondPlayer.difficulty,
+              self.model
+            );
+            self.view.animateFalling(
+              self.view.getXbyRange(bestMove),
+              self.model.getState(),
+              () => {
+                self.view.render(
+                  self.model.makeMove(
+                    self.model.getState(),
+                    bestMove,
+                    self.model.currentPlayer
+                  )
+                );
+                self.isEndGame(self.model.getState());
+              },
+              (board, column, player) =>
+                self.model.getStateByMove(board, column, player)
+            );
+          }
+        },
+        (board, column, player) =>
+          self.model.getStateByMove(board, column, player)
+      ); //On anime le jeton
     }
   }
 }
 
-export {GameController};
+export { GameController };
