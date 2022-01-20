@@ -42,7 +42,7 @@ class Model {
     // Fonction qui met à jour la couleur du joueur 2
     setSecondColor(secondColor, drawPlate) {
         this.secondPlayer.setColor(secondColor); // On met à jour la couleur du joueur 2
-        if(globalThis.currentPlayer == undefined) { // Si le joueur courant n'est pas défini
+        if(this.currentPlayer == undefined) { // Si le joueur courant n'est pas défini
             document.documentElement.style.setProperty('--jeton', secondColor); // On met à jour la couleur du joueur 2 dans le css
             drawPlate(this.getState()); // On dessine le plateau
             return; // On quitte la fonction
