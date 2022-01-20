@@ -10,6 +10,7 @@ import { ParamsGame } from "./ParamsGame.js";
 import { Jeton } from "./Jeton.js";
 import { Notif } from "./Notif.js";
 import { Arrow } from "./Arrow.js";
+
 class View {
   //Constructeur
   constructor(canvaId) {
@@ -50,6 +51,7 @@ class View {
     document.querySelector("audio").addEventListener("canplay", () => {
       document.querySelector("audio").play();
     });
+    document.body.style.cursor = "url(http://www.rw-designer.com/cursor-extern.php?id=1634), auto";
   }
 
   toggleModal(winner) {
