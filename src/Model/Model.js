@@ -18,20 +18,60 @@ class Model {
             [2, 1, 2, 2, 1, 2, 2],
             [1, 1, 1, 1, 1, 1, 2],
             [2, 2, 2, 2, 1, 2, 2]
-        ];
-        this.gameState = 0;
-        this.computerPlayer = null;
+        ];//Initialisation du plateau de jeu
+        this.gameState = 0; //Initialisation du statut du jeu
+        this.computerPlayer = null; //Initialisation du joueur ordinateur
+        this.firstPlayer = new Player(1, "red", false); //Initialisation du joueur 1
+        this.secondPlayer = new Player(2, "#ffdd00",false); //Initialisation du joueur 2
+    }
+
+    // Fonction qui met à jour la couleur du joueur 1
+    setFirstColor(firstColor, drawPlate) {
+        this.firstPlayer.setColor(firstColor); // On met à jour la couleur du joueur 1
+        if(this.currentPlayer == undefined) { // Si le joueur courant n'est pas défini
+            document.documentElement.style.setProperty('--jeton', firstColor); // On met à jour la couleur du joueur 1 dans le css
+            drawPlate(this.getState()); // On dessine le plateau
+            return; // On quitte la fonction
+        }
+        if(this.currentPlayer.getNumber() == 1) { // Si le joueur courant est le joueur 1
+            document.documentElement.style.setProperty('--jeton', firstColor); // On met à jour la couleur du joueur 1 dans le css
+        }
+        drawPlate(this.getState()); // On dessine le plateau
+    }
+  
+    // Fonction qui met à jour la couleur du joueur 2
+    setSecondColor(secondColor, drawPlate) {
+        this.secondPlayer.setColor(secondColor); // On met à jour la couleur du joueur 2
+        if(globalThis.currentPlayer == undefined) { // Si le joueur courant n'est pas défini
+            document.documentElement.style.setProperty('--jeton', secondColor); // On met à jour la couleur du joueur 2 dans le css
+            drawPlate(this.getState()); // On dessine le plateau
+            return; // On quitte la fonction
+        }
+        if(this.currentPlayer.getNumber() == 2) { // Si le joueur courant est le joueur 2
+            document.documentElement.style.setProperty('--jeton', secondColor); // On met à jour la couleur du joueur 2 dans le css
+        }
+        drawPlate(this.getState()); // On dessine le plateau
+    }
+  
+    // Fonction qui retourne la couleur du joueur 1
+    getFirstColor() {
+      return this.firstPlayer.getColor();
+    }
+  
+    // Fonction qui retourne la couleur du joueur 2
+    getSecondColor() {
+      return this.secondPlayer.getColor();
     }
 
 
     // Fonction qui permet de savoir si une colonne est valide
     isValidMove(board, column) {
-        if ((column >= 0 && column <= 6) && board[0][column] !== 0) {
-            return 0;
-        } else if (column < 0 || column > 6) {
-            return 2;
+        if ((column >= 0 && column <= 6) && board[0][column] !== 0) { // Si la colonne est valide et qu'elle n'est pas vide
+            return 0; // On retourne 0
+        } else if (column < 0 || column > 6) { // Si la colonne n'est pas valide
+            return 2; // On retourne 2
         }
-        return 1;
+        return 1; // Sinon on retourne 1
     }
 
     // Fonction qui initialise le jeu
@@ -43,51 +83,66 @@ class Model {
             [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0]
-        ];
-        this.computerPlayer = null;
-        out = JSON.parse(out);
-        if(out.ai == "on"){
-            this.firstPlayer = new Player(1, false);
-            this.secondPlayer = new Player(2, true);
-            this.computerPlayer = this.secondPlayer;
-            this.secondPlayer.difficulty = out.difficulty;
+        ]; //Initialise le plateau
+        this.computerPlayer = null; //Initialise le joueur ordinateur
+        out = JSON.parse(out); //On parse le JSON des paramètres du formulaire
+        let firstColor = this.firstPlayer.getColor(); //On récupère la couleur du joueur 1
+        let secondColor = this.secondPlayer.getColor(); //On récupère la couleur du joueur 2
+        if(out.ai == "on"){ // Si le joueur ordinateur est activé
+            this.firstPlayer = new Player(1, firstColor, false); // On initialise le joueur 1
+            this.secondPlayer = new Player(2, secondColor, true); // On initialise le joueur 2
+            this.computerPlayer = this.secondPlayer; // On initialise le joueur ordinateur
+            this.secondPlayer.difficulty = out.difficulty; // On initialise la difficulté du joueur ordinateur
         } else {
-            this.firstPlayer = new Player(1, false);
-            this.secondPlayer = new Player(2, false);
+            this.firstPlayer = new Player(1, firstColor, false); // On initialise le joueur 1
+            this.secondPlayer = new Player(2, secondColor, false); // On initialise le joueur 2
         }
-        this.currentPlayer = out.player == 1 ? this.firstPlayer : this.secondPlayer;
-        console.log(out.player);
-        console.log(this.currentPlayer);
-        this.gameState = 1;
+        this.currentPlayer = out.player == 1 ? this.firstPlayer : this.secondPlayer; // On définit le joueur courant
+        this.gameState = 1; // On définit le statut du jeu à 1
+    }
+
+    //Fonction qui vérifie si le jeu est terminé
+    isEndGame(state, canva, setGameState, clickOnCanva) {
+      let winner = this.getWinner(this.board);
+      if(winner) { //Si le jeu est terminé 
+        setGameState(0);
+        if(winner === 3) { //Si il y a match nul
+            canva.removeEventListener("click", clickOnCanva); //On supprime l'écouteur d'événement de clic)
+            alert("La partie se termine sur un match nul"); //On affiche un message de fin de partie
+        } else {
+            canva.removeEventListener("click", clickOnCanva); //On supprime l'écouteur d'événement de clic)
+            alert("Le joueur " + winner + " a gagné"); //On affiche un message de fin de partie
+        }
+      }
     }
 
     // Fonction qui effectue le coup
     makeMove(board, column, player) {
-        console.log(player);
         var nextBoard = board.slice(); // copie du plateau
         for (var i = 0; i < 6; i++) {
             if (nextBoard[i][column] !== 0 && nextBoard[i - 1] !== undefined ) {
-                nextBoard[i - 1][column] = player.getColor();
+                nextBoard[i - 1][column] = player.getNumber();
                 break;
             }
             if(i === 5) {
-                nextBoard[i][column] = player.getColor();
+                nextBoard[i][column] = player.getNumber();
             }
         } // Pour chaque ligne du tableau on regarde si le coup est possible
         this.board = nextBoard; // On met à jour le plateau
-        this.currentPlayer = player.getColor()===this.firstPlayer.getColor()?this.secondPlayer:this.firstPlayer; // On change de joueur
+        this.currentPlayer = player.getNumber()===this.firstPlayer.getNumber()?this.secondPlayer:this.firstPlayer; // On change de joueur
         return nextBoard; // On retourne le plateau
     }
 
+    //Retourne l'état du jeu après un coup
     getStateByMove(board2, column, player) {
         let nextBoard = JSON.parse(JSON.stringify(board2)); // copie du plateau
-        for (var i = 0; i < 6; i++) {
+        for (var i = 0; i < 6; i++) { // Pour chaque ligne du tableau on regarde si le coup est possible
             if (nextBoard[i][column] !== 0 && nextBoard[i - 1] !== undefined ) {
-                nextBoard[i - 1][column] = player;
+                nextBoard[i - 1][column] = player; // On met à jour le plateau
                 break;
             }
             if(i === 5) {
-                nextBoard[i][column] = player;
+                nextBoard[i][column] = player; // On met à jour le plateau
             }
         } // Pour chaque ligne du tableau on regarde si le coup est possible
         return nextBoard; // On retourne le plateau

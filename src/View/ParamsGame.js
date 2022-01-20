@@ -16,6 +16,7 @@ import $ from 'jquery';
         this.setSecondColor = setSecondColor;
     }
 
+    // Draw the switch for animate speed
     drawSwitchAnimateSpeed() {
         this.container = document.createElement('div');
         this.container.id = 'pan-bottom';
@@ -44,7 +45,7 @@ import $ from 'jquery';
         document.querySelector('content').appendChild(this.colorPlayer2);
 
         
-      // Color pickers :
+      // Color pickers : (Algorythme récuprer sur codepen.io)
       
       $(".wheel").on("click", (e) => {
         var parentOffset =  $(e.target).offset();
@@ -66,7 +67,6 @@ import $ from 'jquery';
         var rotateCss = "rotate("+actualDeg+"deg)";
         let element = $(e.currentTarget).hasClass("wheel1") ? $(".wrapper__pin1") : $(".wrapper__pin2");
         let setColor = $(e.currentTarget).hasClass("wheel1") ? (color)=>this.setFirstColor(color) : (color)=>this.setSecondColor(color);
-        console.log(element);
         element.css("transform", rotateCss);
         // check which half I'm in
         if (calcDeg >= 0) {
