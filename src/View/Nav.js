@@ -13,6 +13,7 @@ import $ from "jquery";
         this.submit_function = submit_function;
     }
 
+    //Initialise le menu
     draw() {
       this.container = document.createElement('div');
       this.container.id = 'pan-left';
