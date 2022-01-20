@@ -46,6 +46,10 @@ class View {
 
     var gif = document.querySelector("img.gif");
     this.generateBackgroundEvents(gif);
+
+    document.querySelector("audio").addEventListener("canplay", () => {
+      document.querySelector("audio").play();
+    });
   }
 
   toggleModal(winner) {
