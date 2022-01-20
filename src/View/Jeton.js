@@ -16,6 +16,7 @@ class Jeton {
         this.color= color;
     }
 
+    //Dessine le jeton
     draw() {
         this.context.beginPath();
         this.context.arc(this.x, this.y, this.radius, 0, Math.PI*2, true);

@@ -11,6 +11,7 @@ class Arrow {
         this.canvas = canvas;
     }
 
+    //Draw the arrow
     draw(collumn,evt) {
         if(collumn === undefined || collumn === null || collumn === 0 || evt.clientX < this.canvas.getBoundingClientRect().left+95 ) {
             this.hide();
@@ -20,6 +21,7 @@ class Arrow {
         this.element.style.left = collumn+this.canvas.getBoundingClientRect().left-35-((collumn-145)/85) + 'px';
     }
 
+    // Hide the arrow
     hide() {
         this.element.style.display = 'none';
     }

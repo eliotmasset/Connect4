@@ -6,13 +6,15 @@
   * Version: 1.0
  **/
 import { GameController } from "./GameController.js";
+import { View } from "../View/View.js";
+import { Model } from "../Model/Model.js";
 
  class Controller {
 
     // Constructeur
-    constructor(model, view) {
-      this.model = model; //Référence sur le modèle
-      this.view = view; //Référence sur la vue
+    constructor() {
+      this.model = new Model(); //Référence sur le modèle
+      this.view = new View("connect4Canvas"); //Référence sur la vue
       this.gameController = new GameController(this.model, this.view); //On crée un nouveau BoardController
       this.init(); //On lance la fonction d'initialisation
     }

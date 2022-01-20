@@ -7,18 +7,29 @@
  **/
 
  class Player {
-    constructor(color, isComputer) {
-      this.color = color;
-      this.isComputer = false;
-      this.difficulty = 0;
+    constructor(number, color, isComputer) {
+      this.number = number; // 1 or 2
+      this.color = color; // red or yellow
+      this.isComputer = false; // true or false
+      this.difficulty = 0; // 2, 4 or 6
     }
 
-    // Get the color
+    // Get the number
+    getNumber() {
+        return this.number;
+    }
+
+    // Set the number
+    setNumber(number) {
+        this.number = number;
+    }
+
+    //get the color
     getColor() {
         return this.color;
     }
 
-    // Set the color
+    //set the color
     setColor(color) {
         this.color = color;
     }
@@ -33,32 +44,33 @@
         this.isComputer = isComputer;
     }
 
+    // Get the best move
     getBestMove(board, depth, model) {
-        let position = JSON.parse(JSON.stringify(board));
-        var maxEval = -Infinity;
-        var bestMove = 0;
-        for(let i=0; i<7; i++) {
-            var evalScore = this.minimax(model.getStateByMove(position, i, this.color), depth, false, -Infinity, +Infinity, model);
-            if(evalScore > maxEval && model.isValidMove(position, i)) {
+        let position = JSON.parse(JSON.stringify(board)); // Copy the board
+        var maxEval = -Infinity; // The best evalution
+        var bestMove = 0; // The best move
+        for(let i=0; i<7; i++) { // For each possible move
+            var evalScore = this.minimax(model.getStateByMove(position, i, this.number), depth, false, -Infinity, +Infinity, model); // Evaluate the move
+            if(evalScore > maxEval && model.isValidMove(position, i)) { // If the move is better than the best one
                 maxEval = evalScore;
                 bestMove = i;
             }
         }
-        return bestMove;
+        return bestMove; // Return the best move
     }
     
     // Fonction MINAMAX
     minimax(board, depth, isMaximizing, alpha, beta, model) {
         let position = JSON.parse(JSON.stringify(board));
         if(depth <= 0 || model.getWinner(position) != 0) {
-            return this.evalution(position, this.color);
+            return this.evalution(position, this.number);
         }
         var evalScore = 0;
         if(isMaximizing) {
             var maxEval = -Infinity;
             for(let i=0; i<7; i++) { // The best move we can do
                 if(model.isValidMove(position, i)) {
-                    evalScore = this.minimax(model.getStateByMove(position, i, this.color), depth-1, false, alpha, beta, model);
+                    evalScore = this.minimax(model.getStateByMove(position, i, this.number), depth-1, false, alpha, beta, model);
                     maxEval = Math.max(maxEval, evalScore);
                     alpha = Math.max(alpha, evalScore);
                     if(beta <= alpha) {
@@ -71,7 +83,7 @@
             var minEval = Infinity;
             for(let i=0; i<7; i++) { // The worst move the opponent can do
                 if(model.isValidMove(position, i)) {
-                    evalScore = this.minimax(model.getStateByMove(position, i, this.color==1?2:1), depth-1, true, alpha, beta, model);
+                    evalScore = this.minimax(model.getStateByMove(position, i, this.number==1?2:1), depth-1, true, alpha, beta, model);
                     minEval = Math.min(minEval, evalScore);
                     beta = Math.min(beta, evalScore);
                     if(beta <= alpha) {

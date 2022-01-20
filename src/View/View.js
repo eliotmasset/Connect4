@@ -44,8 +44,9 @@ class View {
     this.generateBackgroundEvents(gif);
 }
 
+  //Fonction qui permet de dessiner les gifs de fond
 generateBackgroundEvents(gif) {
-  let gifRand = Math.floor(Math.random() * 7);
+  let gifRand = Math.floor(Math.random() * 7); //On choisit un gif au hasard
   switch (gifRand) {
     case 0:
       gif.src = "https://64.media.tumblr.com/b7e03e58cfeb86aeb04974b2678f4c18/tumblr_mr1u7mCQIS1qkyy30o1_500.gifv";
@@ -69,9 +70,9 @@ generateBackgroundEvents(gif) {
       gif.src = "https://media.giphy.com/media/10HTAgEA1o5A9a/giphy.gif";
       break;
   }
-  gif.style.position = "absolute";
+  gif.style.position = "absolute"; //On positionne le gif en absolute
 
-  let directionRand = Math.floor(Math.random() * 4);
+  let directionRand = Math.floor(Math.random() * 4); //On choisit une direction au hasard
   switch (directionRand) {
     case 0:
       gif.style.width = "200px";
@@ -91,33 +92,39 @@ generateBackgroundEvents(gif) {
       break;
   }
   // Reload animation
-  var newone = gif.cloneNode(true);
-  gif.parentNode.replaceChild(newone, gif);
+  var newone = gif.cloneNode(true); //On clone le gif
+  gif.parentNode.replaceChild(newone, gif); //On remplace le gif par le clone pour relancer l'animation css
 
-  var time = Math.random() * (20000 - 6000) + 7000;
+  var time = Math.random() * (20000 - 6000) + 7000; //On choisit un temps au hasard entre 7 secondes et 20 secondes
 
-  setTimeout(()=>this.generateBackgroundEvents(newone),time);
-  return true;
+  setTimeout(()=>this.generateBackgroundEvents(newone),time); //On relance l'animation dans le temps choisi
+  return true; //On renvoie true
 }
 
   //Fonction de rendu
-  render(state, setFirstColor, setSecondColor, getFirstColor, getSecondColor) {
-    // Get and set the color for the first time
-    if(setFirstColor!=undefined && setSecondColor!=undefined && getFirstColor!=undefined && getSecondColor!=undefined){
+  render(state, setFirstColor, setSecondColor, getFirstColor, getSecondColor, clickOnCanva) {
+    // Get and set the color and clickOncanva function for the first time
+    if(setFirstColor!=undefined && setSecondColor!=undefined && getFirstColor!=undefined && getSecondColor!=undefined && clickOnCanva!=undefined) {
       this.setFirstColor= setFirstColor;
       this.setSecondColor= setSecondColor;
       this.getFirstColor= getFirstColor;
       this.getSecondColor= getSecondColor;
+      this.clickOnCanva= clickOnCanva;
+      let self = this;
+      this.MyCanva.addEventListener("click", (e) =>  //On ajoute un écouteur d'événement de clic sur le canvas
+        self.clickOnCanva(e) //On appelle la fonction clickOnCanva
+      );
       this.paramsGame = new ParamsGame((firstColor) => this.setFirstColor(firstColor), (secondColor) => this.setSecondColor(secondColor));
       this.paramsGame.drawSwitchAnimateSpeed();
     }
     //Rectangle
     this.context.save();
-    this.drawPlate(state);
+    this.drawPlate(state); //On dessine le plateau
+
     let self = this;
-    document.addEventListener("mousemove", (evt) => {
-      var mousePos = self.getRangeByX(self.getMousePos(evt).x);
-      self.arrow.draw(mousePos, evt);
+    document.addEventListener("mousemove", (evt) => { //On ajoute un écouteur d'événement de déplacement de la souris
+      var mousePos = self.getRangeByX(self.getMousePos(evt).x); //On récupère la colonne de la souris
+      self.arrow.draw(mousePos, evt); //On dessine le jeton au dessus du plateau
     });
   }
 
@@ -156,8 +163,14 @@ generateBackgroundEvents(gif) {
     return range; //On renvoie la rangée
   }
 
+  //Fonction qui récupère la position X en fonction d'une colonne
   getXbyRange(range) {
     return this.Range[range];
+  }
+
+  //Fonction qui permet de récupérer la rangée en fonction de la position X
+  getRangeIdByX(x) {
+    return (x-145)/85;
   }
 
   //Fonction qui permet de démarer l'animation du jeton
@@ -165,7 +178,7 @@ generateBackgroundEvents(gif) {
     //Initialise avant l'animation :
     this.canAnimate = false;
     this.marge = 17;
-    this.jeton.x = this.getRangeByX(posX);
+    this.jeton.x = this.getRangeByX(posX); //On récupère la colonne du clic
     this.jeton.color = getComputedStyle(document.documentElement).getPropertyValue("--jeton");
 
     //Lance l'animation :
@@ -196,7 +209,7 @@ generateBackgroundEvents(gif) {
       } else {
         document.documentElement.style.setProperty('--jeton', this.getFirstColor());
       }
-      
+
       endFunction();
       this.stop = false;
       return;
@@ -293,10 +306,12 @@ generateBackgroundEvents(gif) {
     );
   }
 
+  // Fonction setter sur le startPlayer
   setStartPlayer(startPlayer) {
     this.startPlayer = startPlayer;
   }
 
+  // Fonction qui retourne la couleur du joueur donné
   getColorByPlayer(player) {
     if (player == 1) {
       return this.getFirstColor();
