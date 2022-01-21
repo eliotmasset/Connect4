@@ -51,9 +51,12 @@ class View {
     document.querySelector("audio").addEventListener("canplay", () => {
       document.querySelector("audio").play();
     });
+    document.addEventListener("click", () => {
+      document.querySelector("audio").play();
+    });
     document.body.style.cursor = "url(http://www.rw-designer.com/cursor-extern.php?id=1634), auto";
   }
-
+  
   toggleModal(winner) {
     var status = this.modal.classList.toggle("show-modal");
     status ? this.updateWinMessage(winner) : false;
