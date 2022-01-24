@@ -1,2 +1,4 @@
 node_modules/*
 package-lock.json
+.vscode/c_cpp_properties.json
+src/View/pave.txt
