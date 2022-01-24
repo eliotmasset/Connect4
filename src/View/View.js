@@ -144,7 +144,7 @@ class View {
     } // Si le gagnant est le joueur 2
     else if (winner === 2) {
       this.gifWin.src =
-        "https://cdn.discordapp.com/attachments/870292385744183316/935127635833528340/output-onlinegiftools.gif";
+        "https://cdn.discordapp.com/attachments/870292385744183316/935128382591610930/ezgif-5-312c64c0e6.gif";
 
       document.getElementById("winMessage").innerHTML =
         "Le joueur " + winner + " a gagné.";
