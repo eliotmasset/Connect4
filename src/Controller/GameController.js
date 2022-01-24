@@ -81,9 +81,6 @@ class GameController {
       this.view.toggleModal();
       //alert("Triggered");
     });
-    window.addEventListener("click", () => {
-      this.view.windowOnClick(event);
-    });
 
     this.view.jeton.color =
       JSON.parse(out).player == 1

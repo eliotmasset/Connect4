@@ -117,7 +117,7 @@ class Model {
         canva.removeEventListener("click", clickOnCanva); //On supprime l'écouteur d'événement de clic)
         //On affiche un message de fin de partie
         const myEvent = new CustomEvent("win", {
-          detail: { winner: 3 },
+          detail: { winner: 3, tokens: [] },
           bubbles: true,
           cancelable: true,
           composed: false,
@@ -126,10 +126,10 @@ class Model {
         document.getElementById("modal").dispatchEvent(myEvent);
       } else {
         canva.removeEventListener("click", clickOnCanva); //On supprime l'écouteur d'événement de clic)
-
+        let self=this;
         //On affiche un message de fin de partie
         const myEvent = new CustomEvent("win", {
-          detail: { winner },
+          detail: { winner, tokens: self.getTokensWinner(self.getState()) },
           bubbles: true,
           cancelable: true,
           composed: false,
@@ -274,7 +274,10 @@ class Model {
         for (var i = 0; i < 6; i++) { // row
             for (var j = 0; j < 4; j++) { // column
                 if (board[i][j] !== 0 && board[i][j] === board[i][j + 1] && board[i][j] === board[i][j + 2] && board[i][j] === board[i][j + 3]) {
-                    tokens.push([i, j]);
+                    if(!tokens.some((element) => JSON.stringify(element)==JSON.stringify([i,j]))) tokens.push([i, j]);
+                    if(!tokens.some((element) => JSON.stringify(element)==JSON.stringify([i, j+1]))) tokens.push([i, j+1]);
+                    if(!tokens.some((element) => JSON.stringify(element)==JSON.stringify([i, j+2]))) tokens.push([i, j+2]);
+                    if(!tokens.some((element) => JSON.stringify(element)==JSON.stringify([i, j+3]))) tokens.push([i, j+3]);
                 }
             }
         }
@@ -282,7 +285,10 @@ class Model {
         for (var i = 0; i < 3; i++) { // row
             for (var j = 0; j < 7; j++) { // column
                 if (board[i][j] !== 0 && board[i][j] === board[i + 1][j] && board[i][j] === board[i + 2][j] && board[i][j] === board[i + 3][j]) {
-                    tokens.push([i, j]);
+                    if(!tokens.some((element) => JSON.stringify(element)==JSON.stringify([i, j]))) tokens.push([i, j]);
+                    if(!tokens.some((element) => JSON.stringify(element)==JSON.stringify([i+1, j]))) tokens.push([i+1, j]);
+                    if(!tokens.some((element) => JSON.stringify(element)==JSON.stringify([i+2, j]))) tokens.push([i+2, j]);
+                    if(!tokens.some((element) => JSON.stringify(element)==JSON.stringify([i+3, j]))) tokens.push([i+3, j]);
                 }
             }
         }
@@ -290,7 +296,10 @@ class Model {
         for (var i = 0; i < 3; i++) { // row
             for (var j = 0; j < 4; j++) { // column
                 if (board[i][j] !== 0 && board[i][j] === board[i + 1][j + 1] && board[i][j] === board[i + 2][j + 2] && board[i][j] === board[i + 3][j + 3]) {
-                    tokens.push([i, j]);
+                    if(!tokens.some((element) => JSON.stringify(element)==JSON.stringify([i, j]))) tokens.push([i, j]);
+                    if(!tokens.some((element) => JSON.stringify(element)==JSON.stringify([i+1, j+1]))) tokens.push([i+1, j+1]);
+                    if(!tokens.some((element) => JSON.stringify(element)==JSON.stringify([i+2, j+2]))) tokens.push([i+2, j+2]);
+                    if(!tokens.some((element) => JSON.stringify(element)==JSON.stringify([i+3, j+3]))) tokens.push([i+3, j+3]);
                 }
             }
         }
@@ -298,10 +307,14 @@ class Model {
         for (var i = 3; i < 6; i++) { // row
             for (var j = 0; j < 4; j++) { // column
                 if (board[i][j] !== 0 && board[i][j] === board[i - 1][j + 1] && board[i][j] === board[i - 2][j + 2] && board[i][j] === board[i - 3][j + 3]) {
-                    tokens.push([i, j]);
+                    if(!tokens.some((element) => JSON.stringify(element)==JSON.stringify([i, j]))) tokens.push([i, j]);
+                    if(!tokens.some((element) => JSON.stringify(element)==JSON.stringify([i-1, j+1]))) tokens.push([i-1, j+1]);
+                    if(!tokens.some((element) => JSON.stringify(element)==JSON.stringify([i-2, j+2]))) tokens.push([i-2, j+2]);
+                    if(!tokens.some((element) => JSON.stringify(element)==JSON.stringify([i-3, j+3]))) tokens.push([i-3, j+3]);
                 }
             }
         }
+        console.log(tokens);
         return tokens;
     }
 }

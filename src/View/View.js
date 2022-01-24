@@ -40,7 +40,7 @@ class View {
     document.getElementById("modal").addEventListener(
       "win",
       function (e) {
-        self.toggleModal(e.detail.winner);
+        self.toggleModal(e.detail.tokens,e.detail.winner);
       },
       false
     );
@@ -81,9 +81,25 @@ class View {
       "url(http://www.rw-designer.com/cursor-extern.php?id=1634), auto";
   }
 
-  toggleModal(winner) {
+  toggleModal(tokens,winner) {
     var status = this.modal.classList.toggle("show-modal");
     status ? this.updateWinMessage(winner) : false;
+    if(winner==2 || winner==1){
+      this.brightWinners(tokens);
+    }
+  }
+
+  brightWinners(tokens) {
+    this.saveTokens = tokens;
+    for(var i=0;i<tokens.length;i++){
+      this.context.globalCompositeOperation = "source-over";
+      this.context.beginPath();
+      this.context.strokeStyle = "white";
+      this.context.arc(tokens[i][1]*85+145,tokens[i][0]*85+145,30.5,0,2*Math.PI);
+      this.context.closePath();
+      this.context.fillStyle = this.color;
+      this.context.stroke();
+    }
   }
 
   updateMessage(message) {
@@ -116,13 +132,6 @@ class View {
       document.getElementById("winMessage").innerHTML = "Le match est nul.";
     }
   }
-
-  windowOnClick(event) {
-    if (event.target === this.modal) {
-      this.toggleModal();
-    }
-  }
-
   //Fonction qui permet de dessiner les gifs de fond
   generateBackgroundEvents(gif) {
     let gifRand = Math.floor(Math.random() * 7); //On choisit un gif au hasard
@@ -464,11 +473,13 @@ class View {
         this.context.beginPath();
       }
     }
+    if(this.saveTokens !== undefined)this.brightWinners(this.saveTokens);
     this.context.restore();
   }
 
   //Fonction qui permet d'animer l'ouverture du plateau
   openPlate(endFunction, state) {
+    this.saveTokens=undefined;
     this.canAnimate = false;
 
     // On récupère les jetons présents sur le plateau
