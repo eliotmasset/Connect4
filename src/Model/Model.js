@@ -105,7 +105,7 @@ class Model {
     isEndGame(state, canva, setGameState, clickOnCanva) {
       let winner = this.getWinner(this.board);
       if(winner) { //Si le jeu est terminé 
-        setGameState(0);
+        setGameState(false);
         if(winner === 3) { //Si il y a match nul
             canva.removeEventListener("click", clickOnCanva); //On supprime l'écouteur d'événement de clic)
             alert("La partie se termine sur un match nul"); //On affiche un message de fin de partie
@@ -212,6 +212,43 @@ class Model {
     // Fonction qui renvoie l'état du plateau de jeu
     getState() {
         return this.board;
+    }
+
+    //Get all positions of tokens that make a 4 row of the winner
+    getTokensWinner(board) {
+        var tokens = [];
+        for (var i = 0; i < 6; i++) { // row
+            for (var j = 0; j < 4; j++) { // column
+                if (board[i][j] !== 0 && board[i][j] === board[i][j + 1] && board[i][j] === board[i][j + 2] && board[i][j] === board[i][j + 3]) {
+                    tokens.push([i, j]);
+                }
+            }
+        }
+        // check vertical
+        for (var i = 0; i < 3; i++) { // row
+            for (var j = 0; j < 7; j++) { // column
+                if (board[i][j] !== 0 && board[i][j] === board[i + 1][j] && board[i][j] === board[i + 2][j] && board[i][j] === board[i + 3][j]) {
+                    tokens.push([i, j]);
+                }
+            }
+        }
+        // check diagonal
+        for (var i = 0; i < 3; i++) { // row
+            for (var j = 0; j < 4; j++) { // column
+                if (board[i][j] !== 0 && board[i][j] === board[i + 1][j + 1] && board[i][j] === board[i + 2][j + 2] && board[i][j] === board[i + 3][j + 3]) {
+                    tokens.push([i, j]);
+                }
+            }
+        }
+        // check anti-diagonal
+        for (var i = 3; i < 6; i++) { // row
+            for (var j = 0; j < 4; j++) { // column
+                if (board[i][j] !== 0 && board[i][j] === board[i - 1][j + 1] && board[i][j] === board[i - 2][j + 2] && board[i][j] === board[i - 3][j + 3]) {
+                    tokens.push([i, j]);
+                }
+            }
+        }
+        return tokens;
     }
 }
 
