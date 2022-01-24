@@ -104,6 +104,7 @@ class GameController {
 
   //Fonction au clic sur le canvas
   clickOnCanva(e) {
+    e.preventDefault();
     if (!this.view.getCanAnimate() || this.model.gameState === 0) return 0; //Si le jeton est en train de tomber, on ne fait rien
     let pos = this.view.getMousePos(e); //On récupère la position du clic
     let range = this.view.getRangeByX(pos.x); //On récupère la rangée de l'emplacement du clic

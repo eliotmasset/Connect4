@@ -249,26 +249,61 @@ class Model {
         }
       }
     }
-
-    // return winner
     return winner;
-  }
+    }
 
-  // Fonction qui permet de connaitre les coups possibles
-  getPossibleMoves(board) {
-    var moves = [];
-    for (let i = 0; i < 7; i++) {
-      if (this.isValidMove(board, i)) {
-        moves.push(i);
-      }
-    } // Pour chaque colonne on regarde si le coup est possible
-    return moves;
-  }
+    // Fonction qui permet de connaitre les coups possibles
+    getPossibleMoves(board) {
+        var moves = [];
+        for (let i = 0; i < 7; i++) {
+            if (this.isValidMove(board, i)) {
+                moves.push(i);
+            }
+        } // Pour chaque colonne on regarde si le coup est possible
+        return moves;
+    }
+ 
+    // Fonction qui renvoie l'état du plateau de jeu
+    getState() {
+        return this.board;
+    }
 
-  // Fonction qui renvoie l'état du plateau de jeu
-  getState() {
-    return this.board;
-  }
+    //Get all positions of tokens that make a 4 row of the winner
+    getTokensWinner(board) {
+        var tokens = [];
+        for (var i = 0; i < 6; i++) { // row
+            for (var j = 0; j < 4; j++) { // column
+                if (board[i][j] !== 0 && board[i][j] === board[i][j + 1] && board[i][j] === board[i][j + 2] && board[i][j] === board[i][j + 3]) {
+                    tokens.push([i, j]);
+                }
+            }
+        }
+        // check vertical
+        for (var i = 0; i < 3; i++) { // row
+            for (var j = 0; j < 7; j++) { // column
+                if (board[i][j] !== 0 && board[i][j] === board[i + 1][j] && board[i][j] === board[i + 2][j] && board[i][j] === board[i + 3][j]) {
+                    tokens.push([i, j]);
+                }
+            }
+        }
+        // check diagonal
+        for (var i = 0; i < 3; i++) { // row
+            for (var j = 0; j < 4; j++) { // column
+                if (board[i][j] !== 0 && board[i][j] === board[i + 1][j + 1] && board[i][j] === board[i + 2][j + 2] && board[i][j] === board[i + 3][j + 3]) {
+                    tokens.push([i, j]);
+                }
+            }
+        }
+        // check anti-diagonal
+        for (var i = 3; i < 6; i++) { // row
+            for (var j = 0; j < 4; j++) { // column
+                if (board[i][j] !== 0 && board[i][j] === board[i - 1][j + 1] && board[i][j] === board[i - 2][j + 2] && board[i][j] === board[i - 3][j + 3]) {
+                    tokens.push([i, j]);
+                }
+            }
+        }
+        return tokens;
+    }
 }
 
 export { Model };
