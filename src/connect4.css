@@ -312,13 +312,15 @@ content {
 #hologram1 {
   position: absolute;
   top: 100px;
-  left:50%;
+  left: 50%;
   transform: translateX(calc(-50% - 50px));
   width: 600px;
   height: 550px;
   z-index: -1;
   border-radius: 22px;
-  box-shadow: inset 0 -10px 10px -5px #fff, inset 0 0 5px #fff, inset 0 0 12.5px #fff, inset 0 0 20px #07f, inset 0 0 40px #7FF, 0 0 3px #fff, 0 0 20px #0bf, 0 0 50px #07f, 0 0 35px #7FF;
+  box-shadow: inset 0 -10px 10px -5px #fff, inset 0 0 5px #fff,
+    inset 0 0 12.5px #fff, inset 0 0 20px #07f, inset 0 0 40px #7ff,
+    0 0 3px #fff, 0 0 20px #0bf, 0 0 50px #07f, 0 0 35px #7ff;
   animation: onPlate 1s ease-in-out;
 }
 #hologram2 {
@@ -355,10 +357,10 @@ content {
     opacity: 0;
   }
   34% {
-    opacity: .5;
+    opacity: 0.5;
   }
   38% {
-    opacity: .5;
+    opacity: 0.5;
   }
   39% {
     opacity: 0;
@@ -367,10 +369,10 @@ content {
     opacity: 0;
   }
   46% {
-    opacity: .5;
+    opacity: 0.5;
   }
   51% {
-    opacity: .5;
+    opacity: 0.5;
   }
   52% {
     opacity: 0;
@@ -379,10 +381,10 @@ content {
     opacity: 0;
   }
   61% {
-    opacity: .5;
+    opacity: 0.5;
   }
   69% {
-    opacity: .5;
+    opacity: 0.5;
   }
   70% {
     opacity: 0;
@@ -391,10 +393,10 @@ content {
     opacity: 0;
   }
   75% {
-    opacity: .5;
+    opacity: 0.5;
   }
   90% {
-    opacity: .5;
+    opacity: 0.5;
   }
   91% {
     opacity: 0;
@@ -403,10 +405,10 @@ content {
     opacity: 0;
   }
   94% {
-    opacity: .5;
+    opacity: 0.5;
   }
   100% {
-    opacity: .5;
+    opacity: 0.5;
   }
 }
 
@@ -1244,6 +1246,6 @@ audio {
 
 .div-modal {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
 }
