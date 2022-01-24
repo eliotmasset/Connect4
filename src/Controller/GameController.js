@@ -76,12 +76,6 @@ class GameController {
         : this.model.getSecondColor()
     );
 
-    this.view.closeButton.addEventListener("mouseup", () => {
-      console.log("button");
-      this.view.toggleModal();
-      //alert("Triggered");
-    });
-
     this.view.jeton.color =
       JSON.parse(out).player == 1
         ? this.model.getFirstColor()
@@ -110,7 +104,7 @@ class GameController {
     if (move === 0) {
       //On vérifie si le coup est valide
       //  alert("Cette colonne est pleine"); //Si non, on affiche un message d'erreur
-
+      this.view.closed = false;
       const myEvent = new CustomEvent("msg", {
         detail: { message: "Cette colonne est pleine." },
         bubbles: true,

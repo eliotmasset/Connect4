@@ -40,7 +40,8 @@ class View {
     document.getElementById("modal").addEventListener(
       "win",
       function (e) {
-        self.toggleModal(e.detail.tokens,e.detail.winner);
+        self.closed = true;
+        self.toggleModal(e.detail.tokens, e.detail.winner);
       },
       false
     );
@@ -48,6 +49,7 @@ class View {
     document.getElementById("modal").addEventListener(
       "msg",
       function (e) {
+        self.closed = true;
         self.updateMessage(e.detail.message);
       },
       false
@@ -71,6 +73,21 @@ class View {
     var gif = document.querySelector("img.gif");
     this.generateBackgroundEvents(gif);
 
+    this.closed = false;
+
+    this.closeButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      console.log("button");
+      if (closed === false) {
+        this.closed = true;
+        this.toggleModal();
+      }
+
+      //alert("Triggered");
+    });
+
     document.querySelector("audio").addEventListener("canplay", () => {
       document.querySelector("audio").play();
     });
@@ -81,21 +98,28 @@ class View {
       "url(http://www.rw-designer.com/cursor-extern.php?id=1634), auto";
   }
 
-  toggleModal(tokens,winner) {
+  toggleModal(tokens, winner) {
     var status = this.modal.classList.toggle("show-modal");
+    console.log(status);
     status ? this.updateWinMessage(winner) : false;
-    if(winner==2 || winner==1){
+    if (winner == 2 || winner == 1) {
       this.brightWinners(tokens);
     }
   }
 
   brightWinners(tokens) {
     this.saveTokens = tokens;
-    for(var i=0;i<tokens.length;i++){
+    for (var i = 0; i < tokens.length; i++) {
       this.context.globalCompositeOperation = "source-over";
       this.context.beginPath();
       this.context.strokeStyle = "white";
-      this.context.arc(tokens[i][1]*85+145,tokens[i][0]*85+145,30.5,0,2*Math.PI);
+      this.context.arc(
+        tokens[i][1] * 85 + 145,
+        tokens[i][0] * 85 + 145,
+        30.5,
+        0,
+        2 * Math.PI
+      );
       this.context.closePath();
       this.context.fillStyle = this.color;
       this.context.stroke();
@@ -120,12 +144,12 @@ class View {
     } // Si le gagnant est le joueur 2
     else if (winner === 2) {
       this.gifWin.src =
-        "https://media.giphy.com/media/dWlClFAqCjyM6Xu2Lt/giphy.gif";
+        "https://thumbs.gfycat.com/ActiveEnormousGreathornedowl-size_restricted.gif";
 
       document.getElementById("winMessage").innerHTML =
         "Le joueur " + winner + " a gagné.";
     } // Si c'est égalité (match nul)
-    else {
+    else if (winner === 3) {
       this.gifWin.src =
         "https://media.giphy.com/media/10HTAgEA1o5A9a/giphy.gif";
 
@@ -473,13 +497,13 @@ class View {
         this.context.beginPath();
       }
     }
-    if(this.saveTokens !== undefined)this.brightWinners(this.saveTokens);
+    if (this.saveTokens !== undefined) this.brightWinners(this.saveTokens);
     this.context.restore();
   }
 
   //Fonction qui permet d'animer l'ouverture du plateau
   openPlate(endFunction, state) {
-    this.saveTokens=undefined;
+    this.saveTokens = undefined;
     this.canAnimate = false;
 
     // On récupère les jetons présents sur le plateau
