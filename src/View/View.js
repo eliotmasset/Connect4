@@ -45,6 +45,14 @@ class View {
       false
     );
 
+    document.getElementById("modal").addEventListener(
+      "msg",
+      function (e) {
+        self.updateMessage(e.detail.message);
+      },
+      false
+    );
+
     //Initialisation des variables de la classe
     this.minHeightPlate = 150;
     this.maxHeightPlate = 571;
@@ -69,29 +77,39 @@ class View {
     document.addEventListener("click", () => {
       document.querySelector("audio").play();
     });
-    document.body.style.cursor = "url(http://www.rw-designer.com/cursor-extern.php?id=1634), auto";
+    document.body.style.cursor =
+      "url(http://www.rw-designer.com/cursor-extern.php?id=1634), auto";
   }
-  
+
   toggleModal(winner) {
     var status = this.modal.classList.toggle("show-modal");
     status ? this.updateWinMessage(winner) : false;
-    console.log(winner);
+  }
+
+  updateMessage(message) {
+    var status = this.modal.classList.toggle("show-modal");
+    document.getElementById("winMessage").innerHTML = message;
+    this.gifWin.src =
+      "https://media.giphy.com/media/7UtAZDSUjyo6nJ56qy/giphy.gif";
   }
 
   updateWinMessage(winner) {
+    // Si le gagnant est le joueur 1
     if (winner === 1) {
       this.gifWin.src =
-        "https://media.giphy.com/media/AFuvqdSLGoaJGTE7Iy/giphy.gif";
+        "https://media.giphy.com/media/AFuvqdSLGoaJGTE7Iy/giphy.gif"; // On change le gif
 
       document.getElementById("winMessage").innerHTML =
-        "Le joueur " + winner + " a gagné.";
-    } else if (winner === 2) {
+        "Le joueur " + winner + " a gagné."; // On modifie le message de fin
+    } // Si le gagnant est le joueur 2
+    else if (winner === 2) {
       this.gifWin.src =
         "https://media.giphy.com/media/dWlClFAqCjyM6Xu2Lt/giphy.gif";
 
       document.getElementById("winMessage").innerHTML =
         "Le joueur " + winner + " a gagné.";
-    } else {
+    } // Si c'est égalité (match nul)
+    else {
       this.gifWin.src =
         "https://media.giphy.com/media/10HTAgEA1o5A9a/giphy.gif";
 
@@ -101,7 +119,6 @@ class View {
 
   windowOnClick(event) {
     if (event.target === this.modal) {
-      console.log("wino");
       this.toggleModal();
     }
   }

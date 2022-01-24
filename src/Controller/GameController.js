@@ -111,7 +111,15 @@ class GameController {
     let move = this.model.isValidMove(this.model.board, col); //On vérifie si le coup est valide
     if (move === 0) {
       //On vérifie si le coup est valide
-      alert("Cette colonne est pleine"); //Si non, on affiche un message d'erreur
+      //  alert("Cette colonne est pleine"); //Si non, on affiche un message d'erreur
+
+      const myEvent = new CustomEvent("msg", {
+        detail: { message: "Cette colonne est pleine." },
+        bubbles: true,
+        cancelable: true,
+        composed: false,
+      });
+      document.getElementById("modal").dispatchEvent(myEvent);
     } else if (move !== 2) {
       //Sinon, on joue le coup
       this.view.animateFalling(

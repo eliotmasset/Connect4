@@ -115,27 +115,27 @@ class Model {
       if (winner === 3) {
         //Si il y a match nul
         canva.removeEventListener("click", clickOnCanva); //On supprime l'écouteur d'événement de clic)
-        alert("La partie se termine sur un match nul"); //On affiche un message de fin de partie
+        //On affiche un message de fin de partie
         const myEvent = new CustomEvent("win", {
           detail: { winner: 3 },
           bubbles: true,
           cancelable: true,
           composed: false,
         });
-        const event = new Event("win");
+
         document.getElementById("modal").dispatchEvent(myEvent);
       } else {
         canva.removeEventListener("click", clickOnCanva); //On supprime l'écouteur d'événement de clic)
+
+        //On affiche un message de fin de partie
         const myEvent = new CustomEvent("win", {
           detail: { winner },
           bubbles: true,
           cancelable: true,
           composed: false,
         });
-        const event = new Event("win");
-        document.getElementById("modal").dispatchEvent(myEvent);
 
-        // alert("Le joueur " + winner + " a gagné"); //On affiche un message de fin de partie
+        document.getElementById("modal").dispatchEvent(myEvent);
       }
     }
   }
