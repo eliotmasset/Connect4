@@ -137,7 +137,7 @@ class View {
     // Si le gagnant est le joueur 1
     if (winner === 1) {
       this.gifWin.src =
-        "https://media.giphy.com/media/AFuvqdSLGoaJGTE7Iy/giphy.gif"; // On change le gif
+        "https://thumbs.gfycat.com/SilentCheeryEidolonhelvum-size_restricted.gif"; // On change le gif
 
       document.getElementById("winMessage").innerHTML =
         "Le joueur " + winner + " a gagné."; // On modifie le message de fin
