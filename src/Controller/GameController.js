@@ -1,6 +1,6 @@
 /**
  * Nom du fichier: GameController.js
- * Auteur: Eliot Masset
+ * Auteur: Eliot Masset & Maid Sultanovic
  * Dernière modification : 06/01/2021
  * Description: Ce fichier contient les fonctions de la classe GameController
  * Version: 1.0
