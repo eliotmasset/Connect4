@@ -72,7 +72,7 @@ class Player {
   minimax(board, depth, isMaximizing, alpha, beta, model) {
     let position = JSON.parse(JSON.stringify(board));
     if (depth <= 0 || model.getWinner(position) != 0) {
-      return this.evalution(position, this.number);
+      return this.evalution(position, this.number, depth);
     }
     var evalScore = 0;
     if (isMaximizing) {
@@ -120,7 +120,7 @@ class Player {
     }
   }
 
-  evalution(board, player) {
+  evalution(board, player, depth) {
     var score = 0;
     // Range of 2 :
     for (var i = 0; i < 6; i++) {
@@ -226,7 +226,7 @@ class Player {
           board[i][j] === board[i][j + 2] &&
           board[i][j] === board[i][j + 3]
         ) {
-          score = board[i][j] === player ? score + 50 : score - 150;
+          score = board[i][j] === player ? score + (300)*depth : score - (800)*depth;
         }
       }
     }
@@ -240,7 +240,7 @@ class Player {
           board[i][j] === board[i + 2][j] &&
           board[i][j] === board[i + 3][j]
         ) {
-          score = board[i][j] === player ? score + 50 : score - 150;
+          score = board[i][j] === player ? score + (300)*depth : score - (800)*depth;
         }
       }
     }
@@ -254,7 +254,7 @@ class Player {
           board[i][j] === board[i + 2][j + 2] &&
           board[i][j] === board[i + 3][j + 3]
         ) {
-          score = board[i][j] === player ? score + 50 : score - 150;
+          score = board[i][j] === player ? score + (300)*depth : score - (800)*depth;
         }
       }
     }
@@ -268,7 +268,7 @@ class Player {
           board[i][j] === board[i - 2][j + 2] &&
           board[i][j] === board[i - 3][j + 3]
         ) {
-          score = board[i][j] === player ? score + 50 : score - 150;
+          score = board[i][j] === player ? score + (300)*depth : score - (800)*depth;
         }
       }
     }
