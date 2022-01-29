@@ -5,6 +5,10 @@ Connect4 est un projet de jeu du puissance 4 développé en javascript pour le m
 Le design est inspiré de la science fiction et de Star Wars, avec une vue dans un cockpit qui erre dans l'espace.
 ___
 ## Installation
+
+Pour tester le jeu vous pouvez aller dans le dossier dist et ouvrir le fichier **index.html**.  
+Pour les autres cas lire la suite.  
+
 ### Compiler + exécuter :
 *(Si vous n'avez pas npm et webpack : 
 `sudo apt-get install npm webpack`)*  
