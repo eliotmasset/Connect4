@@ -10,8 +10,8 @@ Pour tester le jeu vous pouvez aller dans le dossier dist et ouvrir le fichier *
 Pour les autres cas lire la suite.  
 
 ### Compiler + exécuter :
-*(Si vous n'avez pas npm et webpack : 
-`sudo apt-get install npm webpack`)*  
+*(Si vous n'avez pas npm, node et webpack : 
+`sudo apt-get install npm node webpack`)*  
 `npm install` (à la racine)  
 
 ### En serveur :
